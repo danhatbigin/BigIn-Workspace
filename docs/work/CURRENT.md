@@ -42,3 +42,8 @@ OP API/auth, nhắc 17:00 chạy nền, installers/signing/macOS validation, HR 
 - Git: tạo commit khởi tạo trên main cho source/docs/lockfile hiện có (không push). Chạy lại evidence BOOT-001 trước commit: check/e2e 8/8/desktop PASS.
 - Ghi chú môi trường: chạy npm bằng cmd (PowerShell chặn npm.ps1). Sandbox Linux của Claude không chạy được node_modules Windows; chạy test qua Desktop Commander trên máy Windows.
 - Bước tiếp: owner trả lời POLICY-001, cấp input cho OP-AUDIT-001, UAT UI.
+
+## Cập nhật 12:50 (Claude)
+
+- OP-AUDIT-001: owner dán GET /api/v3 (mục 1 PARTIAL PASS). Đã đọc repo tham chiếu tammai/op-time-tracker-tauri (clone ở D:\Projects\op-time-tracker-tauri, ngoài repo); ghi ghi chú vào packet. **Repo đó không có LICENSE: không copy code khi chưa có xác nhận của anh Tâm.**
+- Bước tiếp: owner hỏi anh Tâm về quyền reuse; owner dán thêm JSON GET chỉ đọc (configuration, users/me, time_entries) để đối chiếu với repo.
