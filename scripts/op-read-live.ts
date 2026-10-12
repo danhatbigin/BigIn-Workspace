@@ -16,8 +16,8 @@ try {
   const logged = new Map<string, number>();
   for (const e of result.entries) logged.set(e.date, (logged.get(e.date) ?? 0) + e.hours);
   for (const [date, hours] of [...logged].sort()) console.log(`${date} ${hours}h`);
-  for (const d of s.days.filter(d => d.missing > 0)) console.log(`THIẾU ${d.date}: ${d.missing}h`);
+  for (const d of s.days.filter(d => d.missing > 0)) console.log(`MISSING ${d.date}: ${d.missing}h`);
 } catch (e) {
-  console.error(e instanceof OpError ? `LỖI ${e.kind}${e.status ? ' ' + e.status : ''}: ${e.message}` : 'LỖI không xác định');
+  console.error(e instanceof OpError ? `ERROR ${e.kind}${e.status ? ' ' + e.status : ''}: ${e.message}` : 'ERROR unknown');
   process.exitCode = 1;
 }

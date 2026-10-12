@@ -176,4 +176,4 @@ Web vẫn cần nơi phân phối file frontend (static hosting hoặc hạ tầ
 
 **Proposed operational details:** Cập nhật checkpoint trước/sau nhóm sửa có ý nghĩa và sau kiểm tra, không chờ hết context; đối soát Git diff khi tiếp quản; không coi Implemented là Verified hoặc Accepted. Khung file đã tạo, chưa có tự động enforce hoặc app implementation.
 - 0.10 (2026-10-12): Owner chốt P-01 phương án A: ngày phải log là T2–T6, bỏ qua ngày tương lai; phép/lễ nhập tay trong app ở bản pilot cho đến khi có nguồn từ OP/HR. Owner giao agent đề xuất tên nhãn cho P-03 (chỉ copy hiển thị); biên 12/16 chưa chốt. Task tiếp theo chờ owner polish UI/UX.
-- 0.11 (2026-10-12): Owner yêu cầu toàn bộ UI hiển thị bằng tiếng Anh. Tài liệu nội bộ vẫn tiếng Việt. Chuỗi hiện có trong UI prototype và thông báo lỗi của packages/op (đang tiếng Việt) cần chuyển sang tiếng Anh; chưa làm, chờ owner polish UI để tránh xung đột.
+- 0.11 (2026-10-12): Owner yêu cầu toàn bộ UI/application hiển thị bằng tiếng Anh; tài liệu nội bộ vẫn tiếng Việt. Đã chuyển chuỗi UI, tên cửa sổ, locale (en-US), lang="en", dữ liệu mẫu, thông báo lỗi của packages/op và test sang English.

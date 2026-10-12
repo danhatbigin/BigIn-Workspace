@@ -57,3 +57,6 @@ Chạy thật chỉ gọi GET `/users/me` và `/time_entries`. Không gọi endp
 ## Hoàn tất / bàn giao
 
 Verified trong phạm vi test ở trên. Chưa Accepted. Chưa gắn nhãn 8/12/16.
+
+## Cập nhật 13:05 — ngôn ngữ English
+Thông báo lỗi của OpError chuyển sang English (cùng đợt chuyển UI). Kiểm tra lại 13:03: `npm run check` 41/41, `npm run build`, `npm run test:e2e` 8/8, `npm run test:desktop`: PASS.

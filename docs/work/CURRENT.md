@@ -70,3 +70,6 @@ P-01 Confirmed (A). P-03: đề xuất tên nhãn trong POLICY-001, biên 12/16 
 
 ## Cập nhật 13:10 (Claude)
 Yêu cầu mới của owner: toàn bộ UI bằng tiếng Anh (MASTER 0.11). Chưa đổi chuỗi trong code (owner đang polish UI); thông báo lỗi packages/op cũng cần chuyển sang English khi nối vào UI.
+
+## Cập nhật 13:05 (Claude) — UI/application toàn bộ English
+Theo yêu cầu owner: đã chuyển mọi chuỗi hiển thị sang English (App, Drawer, DuplicateDialog, useWorkspace, demo data, lỗi packages/op, lỗi domain, locale en-US, html lang=en) và cập nhật e2e/smoke. Docs nội bộ giữ tiếng Việt. Kiểm tra 13:03: check 41/41, build, e2e 8/8, desktop PASS. Ngoài chuỗi chữ không đổi hành vi. Chưa có nhãn 8/12/16.

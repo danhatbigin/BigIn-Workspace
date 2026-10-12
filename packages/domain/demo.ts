@@ -7,8 +7,8 @@ export function demoSnapshot(today: string): Snapshot {
     { id: 'MV-196', project: 'MiVida', title: 'Sprint 12 · Mobile & CMS', status: 'To do' },
     { id: 'VHR-118', project: 'VirgilHR', title: 'Client review & feedback', status: 'Done' },
   ], entries: [
-    { id: 'sample-1', taskId: 'VHR-124', date: week, hours: 4, note: 'Phân tích yêu cầu và hướng dẫn team' },
-    { id: 'sample-2', taskId: 'MV-208', date: week, hours: 2, note: 'Review trải nghiệm đặt lịch' },
+    { id: 'sample-1', taskId: 'VHR-124', date: week, hours: 4, note: 'Requirement analysis and team guidance' },
+    { id: 'sample-2', taskId: 'MV-208', date: week, hours: 2, note: 'Reviewed the appointment booking experience' },
     { id: 'sample-3', taskId: 'VHR-124', date: addDays(week, -7), hours: 6, note: '' },
     { id: 'sample-4', taskId: 'MV-208', date: addDays(week, -6), hours: 10, note: '' },
     { id: 'sample-5', taskId: 'VHR-118', date: addDays(week, -5), hours: 8, note: '' },

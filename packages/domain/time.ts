@@ -40,7 +40,7 @@ export function validHours(value: string): boolean {
 }
 export function duplicateEntries(source: Entry, rows: DuplicateRow[], id: () => string): Entry[] {
   if (!rows.length || new Set(rows.map(row => row.date)).size !== rows.length || rows.some(row => !validHours(row.hours))) {
-    throw new Error('Mỗi ngày cần số giờ hợp lệ trước khi lưu.');
+    throw new Error('Each day needs valid hours before saving.');
   }
   return rows.map(row => ({ ...source, id: id(), date: row.date, hours: Number(row.hours) }));
 }

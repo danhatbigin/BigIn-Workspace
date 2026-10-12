@@ -14,7 +14,7 @@ try {
   });
   if (!security.sandbox || security.nodeIntegration || !security.contextIsolation) throw new Error('Unsafe Electron settings');
   if (await page.evaluate(() => typeof window.require !== 'undefined')) throw new Error('Node exposed to renderer');
-  await page.getByRole('button', { name: 'Thêm thời gian', exact: true }).click();
+  await page.getByRole('button', { name: 'Add time', exact: true }).click();
   await page.getByRole('dialog').waitFor();
   await page.keyboard.press('Escape');
   console.log('PASS: Electron production renderer, drawer and security defaults on ' + process.platform);
