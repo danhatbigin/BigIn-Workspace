@@ -58,3 +58,9 @@ OP API/auth, nhắc 17:00 chạy nền, installers/signing/macOS validation, HR 
 - OP-AUDIT-001: mục 6 PASS (lọc user=me + spentOn), mục 7 PARTIAL (đã đọc schema). Evidence lượt 2: 16 entry / 97 giờ tháng 10, ngày nào cũng ≥ 12h; hai ngày đúng biên 12 và 16. Bổ sung 4 ý vào POLICY-001.
 - Chưa làm: mục 2 (auth ngoài session), 3 (CORS), 5 (tìm work package), 8-10 (form POST, tạo WP, batch/partial). Không ghi dữ liệu lên OP.
 - Bước tiếp: owner trả lời POLICY-001 (ưu tiên P-03 biên, P-05 log không cần WP); hỏi anh Tâm về LICENSE; sau đó em đề xuất task adapter OP chỉ đọc.
+
+## Cập nhật 12:50 (Claude) — OP-READ-001
+
+- [OP-READ-001](tasks/OP-READ-001.md): lớp đọc OP chỉ GET (packages/op) + `dailyBreakdown` ở domain. Verified trong phạm vi test, chưa Accepted. check (41 test), build, e2e 8/8, desktop PASS lúc 12:48–12:49; đọc thật tháng 10 khớp 97h/16 entry, thiếu 12/10 = 8h.
+- Chưa có: nối IPC/safeStorage/UI; nhãn 8/12/16 (P-03 Open); ngày thuộc diện tính (P-01 Open). Key không lưu trong repo (chỉ biến môi trường OP_API_KEY).
+- Bước tiếp: owner chốt P-01/P-03; mở task nối main↔renderer.
