@@ -52,3 +52,9 @@ OP API/auth, nhắc 17:00 chạy nền, installers/signing/macOS validation, HR 
 
 - OP-AUDIT-001: thêm Evidence từ configuration/users/me/time_entries (xem packet). Điểm cần nhớ: tài khoản xem được time entries của nhiều người, nên mọi truy vấn phải lọc user=me; perPageOptions [20,100]; offset là số trang; OP có dấu hiệu chứa dữ liệu phép/Personal Time dưới dạng work package (chưa xác nhận).
 - Bước tiếp: owner dán GET /api/v3/time_entries/schema và truy vấn tháng 10 lọc user=me; hỏi anh Tâm về LICENSE; trả lời POLICY-001 (P-01 có thêm gợi ý nguồn dữ liệu phép).
+
+## Cập nhật 13:30 (Claude)
+
+- OP-AUDIT-001: mục 6 PASS (lọc user=me + spentOn), mục 7 PARTIAL (đã đọc schema). Evidence lượt 2: 16 entry / 97 giờ tháng 10, ngày nào cũng ≥ 12h; hai ngày đúng biên 12 và 16. Bổ sung 4 ý vào POLICY-001.
+- Chưa làm: mục 2 (auth ngoài session), 3 (CORS), 5 (tìm work package), 8-10 (form POST, tạo WP, batch/partial). Không ghi dữ liệu lên OP.
+- Bước tiếp: owner trả lời POLICY-001 (ưu tiên P-03 biên, P-05 log không cần WP); hỏi anh Tâm về LICENSE; sau đó em đề xuất task adapter OP chỉ đọc.

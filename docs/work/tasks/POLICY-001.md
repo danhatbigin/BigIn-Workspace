@@ -27,3 +27,10 @@ Gom các câu hỏi Open trong MASTER mục 9 thành một danh sách owner tr�
 1. Owner trả lời từng P-xx (trả lời “theo đề xuất” cũng được).
 2. Agent ghi quyết định vào MASTER (đổi Open → Confirmed, thêm change log 0.10), rồi mở task packet code tương ứng.
 3. Việc không bị chặn bởi bảng này: OP-AUDIT-001 (chỉ bị chặn bởi URL/tài khoản test).
+
+## Bổ sung 2026-10-12 từ dữ liệu OP thật của owner (xem OP-AUDIT-001)
+
+- P-03: có ngày đúng 12h (01/10) và đúng 16h (02/10) trong tháng 10, nên cần quyết biên **bao gồm hay không bao gồm** 12 và 16 (đề xuất hiện tại: 12–16 là Out standing, tức 12 và 16 thuộc Out standing).
+- P-01: OP có work package "Personal Time" theo tháng và work package nghỉ phép dạng "off N day(s)"; có thể là nguồn dữ liệu phép nhưng cần HR/admin xác nhận trước khi dùng.
+- P-06: OP không giới hạn giờ mỗi entry; mức trần 24h/entry của prototype và cap 8h của app anh Tâm đều là rule phía app, không phải của OP.
+- P-05: schema cho phép ghi giờ vào project không cần work package; owner cần quyết có hỗ trợ không (khác với luồng hiện tại bắt chọn/tạo task).

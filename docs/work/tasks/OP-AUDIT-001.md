@@ -22,8 +22,8 @@ Biết chắc OP instance của BigIn hỗ trợ gì trước khi viết adapter
 | 3 | CORS cho origin web và Electron | Gọi từ origin thử, đọc header; xem cấu hình admin API/CORS | NOT RUN |
 | 4 | Quyền người dùng hiện tại: log time ở project/WP nào | GET /api/v3/users/me, form/_links của work package/time entry | PARTIAL (xem Evidence 12/10) |
 | 5 | Tìm/lọc work package theo project, tên; phân trang | GET /api/v3/work_packages?filters=…; xác minh quan hệ Sprint 12/R65 không giả định phân cấp | NOT RUN |
-| 6 | Đọc time entries của user theo khoảng ngày (spentOn) để tính thiếu giờ và phát hiện trùng task | GET /api/v3/time_entries?filters=… | PARTIAL (xem Evidence 12/10) |
-| 7 | Contract tạo time entry: trường bắt buộc, kiểu giờ (ISO duration), activity bắt buộc không, validation form | POST /time_entries/form trước khi POST thật (dùng tài khoản test) | PARTIAL (xem Evidence 12/10) |
+| 6 | Đọc time entries của user theo khoảng ngày (spentOn) để tính thiếu giờ và phát hiện trùng task | GET /api/v3/time_entries?filters=… | PASS 2026-10-12 (owner dán): GET time_entries với filters user=me + spentOn <>d, pageSize=100, offset=1 chạy đúng; total=16 entry của owner trong tháng 10 (xem Evidence lượt 2). Phân trang nhiều trang chưa thử |
+| 7 | Contract tạo time entry: trường bắt buộc, kiểu giờ (ISO duration), activity bắt buộc không, validation form | POST /time_entries/form trước khi POST thật (dùng tài khoản test) | PARTIAL: đã đọc GET /time_entries/schema (xem Evidence lượt 2); chưa chạy POST /time_entries/form hay tạo thật |
 | 8 | Tạo work package: trường bắt buộc, type/status/assignee | POST /work_packages/form | NOT RUN |
 | 9 | Đổi status work package độc lập với log | Form của WP | NOT RUN |
 | 10 | Batch/atomic và idempotency: nhiều POST tuần tự, mất response sau ghi, đối soát trước retry | Thiết kế test trên project thử nghiệm; không giả định transaction | NOT RUN |
@@ -51,6 +51,45 @@ Nguồn: GET /api/v3/configuration, /api/v3/users/me, /api/v3/time_entries?pageS
 | Mọi entry mẫu thuộc project id 5 (Bigin), activity id 3 (Development). Có work package dạng "Personal Time - <tháng>" của từng người, và work package dạng "<tên> off N day(s) from … to …" có time entry | Khớp mô tả personal ticket do HR cấp hàng tháng trong MASTER. **Dấu hiệu** (chưa kết luận) rằng ngày nghỉ phép có thể suy ra từ work package/time entry trong OP — cần xác nhận với HR/admin trước khi dựa vào (P-01) | #12 |
 
 Chưa có: mã version OP, danh sách project/quyền ghi của owner, form tạo entry thật, auth ngoài session, CORS.
+
+## Evidence lượt 2 — 2026-10-12: schema time entry và giờ tháng 10 của owner (đã lược comment/tên work package)
+
+Nguồn: GET /api/v3/time_entries/schema và GET /api/v3/time_entries?pageSize=100&filters=[user=me, spentOn <>d 2026-10-01..2026-10-31].
+
+**Schema (trường bắt buộc/ghi được):**
+
+| Trường | required | writable | Ghi chú |
+|---|---|---|---|
+| spentOn (Date) | có | có | |
+| hours (Duration, ISO) | có | có | |
+| user (link) | có | có | Schema yêu cầu user; repo tham chiếu không gửi user khi tạo cho chính mình. Phải xác minh qua /time_entries/form xem OP tự điền user hiện tại hay bắt buộc gửi |
+| activity (link) | có | có | **hasDefault = true**: có activity mặc định; UI không nhất thiết bắt người dùng chọn |
+| workPackage (link) | **không** | có | Có thể ghi giờ vào project mà không cần work package; ảnh hưởng Q-02 (drawer tìm/tạo task) |
+| project (link) | không | có | |
+| comment (Formattable) | không | có | |
+
+Schema không có trường entity/ongoing/giờ bắt đầu-kết thúc; chưa kết luận version.
+
+**Quyền trên entry của owner:** mỗi entry có link updateImmediately (PATCH), update (POST …/form) và delete (DELETE) → owner sửa/xóa được entry của chính mình.
+
+**Truy vấn lọc:** user=me + spentOn <>d (khoảng đóng 01–31/10) + pageSize=100 + offset=1 trả đúng 16 entry, total=16, count=16. Filter JSON và định dạng ISO PT8H, PT4H, PT5H… đúng như repo tham chiếu mô tả. Không có dấu hiệu OP giới hạn giờ mỗi entry/ngày (có ngày 16h).
+
+**Tổng giờ theo ngày (tổng hợp, kiểm lại bằng script):**
+
+| Ngày | Giờ | Ghi chú đối chiếu rule |
+|---|---|---|
+| T5 01/10 | 12 | đúng biên 12 |
+| T6 02/10 | 16 | đúng biên 16 |
+| T2 05/10 | 13 | |
+| T3 06/10 | 14 | |
+| T4 07/10 | 14 | |
+| T5 08/10 | 14 | |
+| T6 09/10 | 14 | |
+| T2 12/10 (hôm nay) | 0 | chưa có entry |
+
+Tổng 97 giờ / 16 entry, cả 7 ngày có log đều ≥ 8h. Mỗi ngày gồm một khối 8h cộng phần log thêm ở project khác. Ngày 01/10 và 02/10 rơi đúng biên 12 và 16 của đề xuất P-03, nên biên inclusive/exclusive cần owner chốt trước khi hiển thị nhãn.
+
+**Thói quen log (từ createdAt):** các entry được tạo theo đợt vào 02/10, 05/10 và 11/10 cho các ngày trước đó (log bù theo lô vài ngày một lần), khớp mô tả vấn đề trong MASTER §1. Đây là quan sát từ dữ liệu của chính owner, không suy rộng cho nhân viên khác.
 
 ## Nguồn tham chiếu: repo anh Tâm (đọc 2026-10-12)
 
