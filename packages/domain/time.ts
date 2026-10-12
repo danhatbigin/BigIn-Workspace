@@ -25,6 +25,13 @@ export function summarize(entries: Entry[], eligibleDates: string[]) {
     missing: totals.reduce((sum, hours) => sum + Math.max(0, 8 - hours), 0),
     completeDays: totals.filter(hours => hours >= 8).length, days: days.length };
 }
+// Từng ngày: giờ đã log và giờ thiếu so với 8h, không bù giữa các ngày (LT-01-R01). Không gắn nhãn (P-03 Open).
+export function dailyBreakdown(entries: Entry[], eligibleDates: string[]): { date: string; hours: number; missing: number }[] {
+  return [...new Set(eligibleDates)].sort().map(date => {
+    const hours = hoursOn(entries, date);
+    return { date, hours, missing: Math.max(0, 8 - hours) };
+  });
+}
 export function hasSameTask(entries: Entry[], taskId: string, date: string): boolean {
   return entries.some(e => e.taskId === taskId && e.date === date);
 }
