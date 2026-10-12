@@ -47,3 +47,8 @@ OP API/auth, nhắc 17:00 chạy nền, installers/signing/macOS validation, HR 
 
 - OP-AUDIT-001: owner dán GET /api/v3 (mục 1 PARTIAL PASS). Đã đọc repo tham chiếu tammai/op-time-tracker-tauri (clone ở D:\Projects\op-time-tracker-tauri, ngoài repo); ghi ghi chú vào packet. **Repo đó không có LICENSE: không copy code khi chưa có xác nhận của anh Tâm.**
 - Bước tiếp: owner hỏi anh Tâm về quyền reuse; owner dán thêm JSON GET chỉ đọc (configuration, users/me, time_entries) để đối chiếu với repo.
+
+## Cập nhật 13:10 (Claude)
+
+- OP-AUDIT-001: thêm Evidence từ configuration/users/me/time_entries (xem packet). Điểm cần nhớ: tài khoản xem được time entries của nhiều người, nên mọi truy vấn phải lọc user=me; perPageOptions [20,100]; offset là số trang; OP có dấu hiệu chứa dữ liệu phép/Personal Time dưới dạng work package (chưa xác nhận).
+- Bước tiếp: owner dán GET /api/v3/time_entries/schema và truy vấn tháng 10 lọc user=me; hỏi anh Tâm về LICENSE; trả lời POLICY-001 (P-01 có thêm gợi ý nguồn dữ liệu phép).

@@ -20,17 +20,37 @@ Biết chắc OP instance của BigIn hỗ trợ gì trước khi viết adapter
 | 1 | Version OP và API v3 bật | GET /api/v3 (root); owner mở trong trình duyệt đã đăng nhập và dán JSON | PARTIAL PASS 2026-10-12: API v3 bật, instanceName=BigIn, root có link user (phiên đã xác thực), configuration, memberships, priorities, relations, statuses, time_entries, types, userPreferences, workPackages. Không thấy coreVersion trong response (version vẫn chưa biết). Root không có link projects; chưa kết luận lý do (quyền hay version) |
 | 2 | Cơ chế auth khả dụng: API key (basic), OAuth2 authorization code + PKCE cho public client, session | Hỏi admin + thử trên instance; không mặc định OAuth/PKCE hỗ trợ | NOT RUN |
 | 3 | CORS cho origin web và Electron | Gọi từ origin thử, đọc header; xem cấu hình admin API/CORS | NOT RUN |
-| 4 | Quyền người dùng hiện tại: log time ở project/WP nào | GET /api/v3/users/me, form/_links của work package/time entry | NOT RUN |
+| 4 | Quyền người dùng hiện tại: log time ở project/WP nào | GET /api/v3/users/me, form/_links của work package/time entry | PARTIAL (xem Evidence 12/10) |
 | 5 | Tìm/lọc work package theo project, tên; phân trang | GET /api/v3/work_packages?filters=…; xác minh quan hệ Sprint 12/R65 không giả định phân cấp | NOT RUN |
-| 6 | Đọc time entries của user theo khoảng ngày (spentOn) để tính thiếu giờ và phát hiện trùng task | GET /api/v3/time_entries?filters=… | NOT RUN |
-| 7 | Contract tạo time entry: trường bắt buộc, kiểu giờ (ISO duration), activity bắt buộc không, validation form | POST /time_entries/form trước khi POST thật (dùng tài khoản test) | NOT RUN |
+| 6 | Đọc time entries của user theo khoảng ngày (spentOn) để tính thiếu giờ và phát hiện trùng task | GET /api/v3/time_entries?filters=… | PARTIAL (xem Evidence 12/10) |
+| 7 | Contract tạo time entry: trường bắt buộc, kiểu giờ (ISO duration), activity bắt buộc không, validation form | POST /time_entries/form trước khi POST thật (dùng tài khoản test) | PARTIAL (xem Evidence 12/10) |
 | 8 | Tạo work package: trường bắt buộc, type/status/assignee | POST /work_packages/form | NOT RUN |
 | 9 | Đổi status work package độc lập với log | Form của WP | NOT RUN |
 | 10 | Batch/atomic và idempotency: nhiều POST tuần tự, mất response sau ghi, đối soát trước retry | Thiết kế test trên project thử nghiệm; không giả định transaction | NOT RUN |
-| 11 | Giới hạn tốc độ/lỗi/phân trang cho reminder nền | Đọc header phản hồi, tài liệu admin | NOT RUN |
-| 12 | Lịch phép/lễ có lấy được từ OP hay HR không | Hỏi owner/admin; gắn P-01 | NOT RUN |
+| 11 | Giới hạn tốc độ/lỗi/phân trang cho reminder nền | Đọc header phản hồi, tài liệu admin | PARTIAL (xem Evidence 12/10) |
+| 12 | Lịch phép/lễ có lấy được từ OP hay HR không | Hỏi owner/admin; gắn P-01 | PARTIAL (xem Evidence 12/10) |
 
 Các endpoint ở cột “Cách kiểm tra” là gợi ý từ tài liệu công khai của OpenProject API v3, **chưa xác minh trên instance BigIn**; mỗi mục phải có evidence (lệnh, thời điểm, PASS/FAIL) khi chạy.
+
+## Evidence 2026-10-12 — owner dán GET từ trình duyệt đã đăng nhập (đã lược danh tính người khác)
+
+Nguồn: GET /api/v3/configuration, /api/v3/users/me, /api/v3/time_entries?pageSize=3&offset=1. Không ghi tên/email/avatar/ID đồng nghiệp vào repo.
+
+| Quan sát | Ý nghĩa cho thiết kế | Mục |
+|---|---|---|
+| configuration.perPageOptions = [20, 100] | Dùng pageSize ≤ 100 cho mọi truy vấn; chưa biết OP xử lý giá trị ngoài danh sách (clamp hay từ chối) — kiểm tra trước khi dùng 200 như repo tham chiếu | #11 |
+| maximumAttachmentFileSize = 524288000 (500 MB) | Instance BigIn cho phép file lớn hơn mặc định 5 MB mà repo tham chiếu giả định; không liên quan MVP log giờ | #11 |
+| userPreferences.timeZone = Asia/Bangkok; workdays = [1,2,3,4,5] | Có thể đọc timezone và ngày làm việc từ tài khoản OP thay vì hardcode (ứng viên cho P-01/P-08, chờ owner duyệt). dateFormat/timeFormat/startOfWeek = null (mặc định) | #12 |
+| userPreferences.dailyReminders (08:00/13:00/16:00) | Đây là nhắc của OP về notification, không phải nhắc log giờ 17:00 của MASTER; không trùng và không thay thế | — |
+| users/me trả id, status active, language en, link memberships; không có field admin | Tài khoản owner xác thực được; chưa biết quyền admin (không cần cho app) | #4 |
+| GET /time_entries không filter trả total ≈ 58 748 entry **của nhiều người** (cả user khác) | Tài khoản owner có quyền xem time entries của người khác trong project; **app phải luôn lọc user = me** (và spentOn) để không hiển thị/tính giờ người khác. Cũng nghĩa là không được dùng count/total chưa lọc | #6 |
+| offset=1 → nextByOffset offset=2 | Trong OP v3 `offset` là **số trang** (bắt đầu 1), không phải số bản ghi; repo tham chiếu đặt tên là offset nên dễ hiểu nhầm — phải test khi phân trang | #6 |
+| Time entry có hours dạng ISO (PT4H, PT1H), comment.format = plain, spentOn dạng ngày, link project/workPackage/user/activity | Khớp mô tả repo tham chiếu và domain model hiện tại của prototype (giờ thập phân) cần chuyển đổi ISO duration khi nối thật | #6, #7 |
+| Collection có link createTimeEntry (POST /time_entries/form) và createTimeEntryImmediately (POST /time_entries) | Tài khoản owner có quyền tạo time entry (OP chỉ hiện link khi được phép). Chưa biết ở project/WP nào cụ thể | #7 |
+| Link `schema` của time entry: GET /api/v3/time_entries/schema | Có thể đọc schema bằng GET (không cần POST) để xem trường bắt buộc/activity | #7 |
+| Mọi entry mẫu thuộc project id 5 (Bigin), activity id 3 (Development). Có work package dạng "Personal Time - <tháng>" của từng người, và work package dạng "<tên> off N day(s) from … to …" có time entry | Khớp mô tả personal ticket do HR cấp hàng tháng trong MASTER. **Dấu hiệu** (chưa kết luận) rằng ngày nghỉ phép có thể suy ra từ work package/time entry trong OP — cần xác nhận với HR/admin trước khi dựa vào (P-01) | #12 |
+
+Chưa có: mã version OP, danh sách project/quyền ghi của owner, form tạo entry thật, auth ngoài session, CORS.
 
 ## Nguồn tham chiếu: repo anh Tâm (đọc 2026-10-12)
 
