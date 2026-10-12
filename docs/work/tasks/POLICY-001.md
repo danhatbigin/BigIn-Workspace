@@ -49,3 +49,7 @@ Gom các câu hỏi Open trong MASTER mục 9 thành một danh sách owner tr�
 | > 16 | Cần xem lại | Không chặn lưu, không khen |
 
 - Task nối UI/Electron: owner muốn polish UI/UX trước; chưa mở.
+
+## Cập nhật: ngôn ngữ UI = English (owner, 2026-10-12)
+
+Nhãn đề xuất cho UI (English): < 8 → "X h missing"; = 8 → "Complete"; > 8 đến < 12 → "Well performed"; 12–16 → "Out standing"; > 16 → "Needs review". Bảng tiếng Việt phía trên chỉ để đọc nội bộ. Biên 12/16 vẫn Open.

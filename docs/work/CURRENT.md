@@ -67,3 +67,6 @@ OP API/auth, nhắc 17:00 chạy nền, installers/signing/macOS validation, HR 
 
 ## Cập nhật 13:00 (Claude) — owner trả lời
 P-01 Confirmed (A). P-03: đề xuất tên nhãn trong POLICY-001, biên 12/16 vẫn Open. MASTER lên 0.10. Task tiếp theo: chờ owner polish UI/UX, chưa nối OP vào giao diện. Không đổi code.
+
+## Cập nhật 13:10 (Claude)
+Yêu cầu mới của owner: toàn bộ UI bằng tiếng Anh (MASTER 0.11). Chưa đổi chuỗi trong code (owner đang polish UI); thông báo lỗi packages/op cũng cần chuyển sang English khi nối vào UI.
