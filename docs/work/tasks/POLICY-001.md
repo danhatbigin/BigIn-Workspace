@@ -34,3 +34,18 @@ Gom các câu hỏi Open trong MASTER mục 9 thành một danh sách owner tr�
 - P-01: OP có work package "Personal Time" theo tháng và work package nghỉ phép dạng "off N day(s)"; có thể là nguồn dữ liệu phép nhưng cần HR/admin xác nhận trước khi dùng.
 - P-06: OP không giới hạn giờ mỗi entry; mức trần 24h/entry của prototype và cap 8h của app anh Tâm đều là rule phía app, không phải của OP.
 - P-05: schema cho phép ghi giờ vào project không cần work package; owner cần quyết có hỗ trợ không (khác với luồng hiện tại bắt chọn/tạo task).
+
+## Trả lời của owner 2026-10-12
+
+- **P-01: Confirmed — phương án A** (T2–T6, bỏ ngày tương lai, phép/lễ nhập tay ở bản pilot). Chưa có code cho phần nhập phép/lễ.
+- **P-03: owner giao agent đặt tên nhãn (chỉ copy).** Biên inclusive/exclusive của 12 và 16 vẫn Open. Tên đề xuất (Proposed, owner có thể đổi):
+
+| Khoảng giờ/ngày | Tên nhãn đề xuất (VI) | Ghi chú |
+|---|---|---|
+| < 8 | Còn thiếu X giờ | Không phải "khen"; nêu số giờ thiếu |
+| = 8 | Đủ giờ | |
+| > 8 đến < 12 | Well performed | Tên owner đã đặt |
+| 12 đến 16 | Out standing | Tên owner đã đặt (biên còn Open) |
+| > 16 | Cần xem lại | Không chặn lưu, không khen |
+
+- Task nối UI/Electron: owner muốn polish UI/UX trước; chưa mở.

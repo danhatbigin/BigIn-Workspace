@@ -64,3 +64,6 @@ OP API/auth, nhắc 17:00 chạy nền, installers/signing/macOS validation, HR 
 - [OP-READ-001](tasks/OP-READ-001.md): lớp đọc OP chỉ GET (packages/op) + `dailyBreakdown` ở domain. Verified trong phạm vi test, chưa Accepted. check (41 test), build, e2e 8/8, desktop PASS lúc 12:48–12:49; đọc thật tháng 10 khớp 97h/16 entry, thiếu 12/10 = 8h.
 - Chưa có: nối IPC/safeStorage/UI; nhãn 8/12/16 (P-03 Open); ngày thuộc diện tính (P-01 Open). Key không lưu trong repo (chỉ biến môi trường OP_API_KEY).
 - Bước tiếp: owner chốt P-01/P-03; mở task nối main↔renderer.
+
+## Cập nhật 13:00 (Claude) — owner trả lời
+P-01 Confirmed (A). P-03: đề xuất tên nhãn trong POLICY-001, biên 12/16 vẫn Open. MASTER lên 0.10. Task tiếp theo: chờ owner polish UI/UX, chưa nối OP vào giao diện. Không đổi code.
