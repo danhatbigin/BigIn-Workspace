@@ -7,4 +7,5 @@ contextBridge.exposeInMainWorld('biginDesktop', Object.freeze({
   load: (from,to) => ipcRenderer.invoke('op:load', from,to),
   search: (query,projectId) => ipcRenderer.invoke('op:search', query,projectId),
   write: entries => ipcRenderer.invoke('op:write', entries),
+  resolve: clientIds => ipcRenderer.invoke('op:resolve', clientIds),
 }));

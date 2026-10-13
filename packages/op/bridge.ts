@@ -11,10 +11,12 @@ export type DesktopApi = {
   load(from:string,to:string): Promise<ApiResult<LiveData>>;
   search(query:string,projectId?:number): Promise<ApiResult<Task[]>>;
   write(entries:Entry[]): Promise<ApiResult<BatchSaveResult>>;
+  resolve(clientIds:string[]): Promise<ApiResult<{ resolved:number }>>;
 };
 export type LiveSession = {
   data:LiveData; user:User; busy:boolean; warning:string;
   load(from:string,to:string):void; refresh():void; disconnect():void;
   search(query:string,projectId?:number):Promise<Task[]>;
   write(entries:Entry[]):Promise<BatchSaveResult>;
+  resolve(clientIds:string[]):Promise<number>;
 };

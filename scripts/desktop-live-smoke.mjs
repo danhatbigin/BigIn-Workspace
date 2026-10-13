@@ -91,6 +91,16 @@ try {
   await expect(page.getByLabel('API token')).toHaveCount(0);
   const blocked=await page.evaluate(async()=>window.biginDesktop.write([{id:'new-attempt',taskId:'42',date:'2026-10-14',hours:1,note:'Existing entry',activityId:3}]));
   expect(blocked.value.outcomes[0].status).toBe('uncertain');expect(creates.filter(entry=>entry.spentOn==='2026-10-14')).toHaveLength(1);
+  // Editing hours/note must not bypass the guard for the same task and day.
+  const edited=await page.evaluate(async()=>window.biginDesktop.write([{id:'edited-attempt',taskId:'42',date:'2026-10-14',hours:3,note:'Edited note',activityId:3}]));
+  expect(edited.value.outcomes[0].status).toBe('uncertain');expect(creates.filter(entry=>entry.spentOn==='2026-10-14')).toHaveLength(1);
+  // After the owner confirms in OpenProject, resolve lifts only that block; retry reaches the server again.
+  const journal=JSON.parse(await readFile(path.join(profile,'op-write-journal.json'),'utf8'));const stuck=journal.find(item=>item.status==='uncertain');
+  expect(stuck?.slot).toBeTruthy();
+  const none=await page.evaluate(async()=>window.biginDesktop.resolve(['not-a-journal-id']));expect(none.value.resolved).toBe(0);
+  const lifted=await page.evaluate(async id=>window.biginDesktop.resolve([id]),stuck.clientId);expect(lifted.value.resolved).toBe(1);
+  await page.evaluate(async()=>window.biginDesktop.write([{id:'after-check',taskId:'42',date:'2026-10-14',hours:3,note:'Edited note',activityId:3}]));
+  expect(creates.filter(entry=>entry.spentOn==='2026-10-14')).toHaveLength(2);
   await page.getByRole('button',{name:'Forget token',exact:true}).click();await expect(page.getByLabel('API token')).toBeVisible();
   await expect(readFile(path.join(profile,'op-credentials.bin'))).rejects.toThrow();
   console.log('PASS: Windows first run, encrypted token/restart/forget, current-user reads, real POST contract against mock, duplicate partial/uncertain retry protection and renderer isolation.');
