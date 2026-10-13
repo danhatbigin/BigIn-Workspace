@@ -1,0 +1,22 @@
+import { cp, mkdir, readFile, rename, stat, writeFile } from 'node:fs/promises';
+import path from 'node:path';
+import { execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+if(process.platform!=='win32' || process.arch!=='x64')throw Error('This pilot package must be built on Windows x64.');
+const output=path.join(root,'release','BigIn-Workspace-0.2.1-win-x64');
+if(!output.startsWith(root+path.sep+'release'+path.sep))throw Error('Invalid output path.');
+await mkdir(output,{recursive:true});
+await cp(path.join(root,'node_modules/electron/dist'),output,{recursive:true});
+await rename(path.join(output,'electron.exe'),path.join(output,'BigIn Workspace.exe'));
+const resources=path.join(output,'resources/app'); await mkdir(resources,{recursive:true});
+await cp(path.join(root,'dist/web'),path.join(resources,'dist/web'),{recursive:true});
+await mkdir(path.join(resources,'apps/desktop'),{recursive:true});
+for(const file of ['main.cjs','preload.cjs','op-service.cjs','live.cjs'])await cp(path.join(root,'apps/desktop',file),path.join(resources,'apps/desktop',file));
+await writeFile(path.join(resources,'package.json'),JSON.stringify({name:'bigin-workspace',productName:'BigIn Workspace',version:'0.2.1',main:'apps/desktop/main.cjs'},null,2));
+await writeFile(path.join(output,'READ-ME.txt'),'BigIn Workspace Windows pilot\r\n\r\nExtract the entire ZIP, then open BigIn Workspace.exe. Keep the companion files beside the EXE.\r\nFirst launch asks for your OpenProject API token (op.bigin.vn).\r\nAdd time and Duplicate write real time entries. Task creation/status editing and reminders are not enabled in this pilot.\r\nThe token is encrypted for your Windows account; use Forget token to remove it.\r\nThis is an unsigned internal test build, not an installer.\r\n');
+const zip=output+'.zip';
+// Explicit absolute inputs stay under release; no recursive removal or shell interpolation.
+const zipScript=await readFile(path.join(root,'scripts/zip-windows.ps1'),'utf8');
+execFileSync('powershell.exe',['-NoProfile','-NonInteractive','-Command',zipScript],{stdio:'inherit',env:{...process.env,BIGIN_PACKAGE_ROOT:path.join(root,'release'),BIGIN_PACKAGE_SOURCE:output,BIGIN_PACKAGE_ZIP:zip}});
+console.log(`Windows package: ${zip} (${Math.round((await stat(zip)).size/1024/1024)} MB)`);

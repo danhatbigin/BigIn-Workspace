@@ -235,13 +235,14 @@ describe('phân loại lỗi và không rò key', () => {
 });
 
 describe('ranh giới renderer/main', () => {
-  it('mã trong apps/web không import packages/op (renderer không giữ key)', () => {
+  it('renderer chỉ import type bridge, không import OP runtime/credentials', () => {
     const dir = path.resolve(__dirname, '../../apps/web/src');
-    const offenders = readdirSync(dir).filter(f => /\.(ts|tsx)$/.test(f)).filter(f => /packages\/op|\.\.\/op\//.test(readFileSync(path.join(dir, f), 'utf8')));
+    const offenders = readdirSync(dir).filter(f => /\.(ts|tsx)$/.test(f)).filter(f => /packages\/op|\.\.\/op\//.test(readFileSync(path.join(dir, f), 'utf8').replace(/^import type[^;]+;/gm,'')));
     expect(offenders).toEqual([]);
   });
-  it('lớp op không có phương thức ghi: chỉ lộ getMe và getMyTimeEntries', () => {
-    expect(Object.keys(createOpClient({ baseUrl: BASE, apiKey: KEY })).sort()).toEqual(['getMe', 'getMyTimeEntries']);
+  it('transport chỉ dùng trong main; bridge không lộ request HTTP generic', () => {
+    expect(Object.keys(createOpClient({ baseUrl: BASE, apiKey: KEY })).sort()).toEqual(['getMe', 'getMyTimeEntries','requestJson']);
+    expect(readFileSync(path.resolve(__dirname,'../../apps/desktop/preload.cjs'),'utf8')).not.toMatch(/exposeInMainWorld[\s\S]*requestJson|apiKey|decryptString/);
   });
 });
 

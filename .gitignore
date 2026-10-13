@@ -7,3 +7,6 @@ playwright-report/
 !.env.example
 *.log
 .local/
+
+release/
+apps/desktop/live.cjs

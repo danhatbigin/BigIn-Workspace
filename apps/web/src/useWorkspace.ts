@@ -11,8 +11,8 @@ function load(today: string): { data: Snapshot; warning: string } {
     return { data: demoSnapshot(today), warning: 'Saved local data is invalid. Sample data is shown; the old data has not been overwritten.' };
   } catch { return { data: demoSnapshot(today), warning: 'Couldn’t read local data. Check storage permissions before saving.' }; }
 }
-export function useWorkspace(today: string) {
-  const [initial] = useState(() => load(today));
+export function useWorkspace(today: string, enabled=true) {
+  const [initial] = useState(() => enabled ? load(today) : {data:{version:1 as const,tasks:[],entries:[]},warning:''});
   const [data, setData] = useState(initial.data);
   const [warning, setWarning] = useState(initial.warning);
   function save(next: Snapshot): boolean {

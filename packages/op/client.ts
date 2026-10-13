@@ -1,12 +1,12 @@
 import { OpError, kindForStatus } from './errors';
 import { parseIsoDuration } from './duration';
 
-// CHỈ CHẠY Ở MAIN/NODE. Renderer không bao giờ import module này hay giữ key. Chỉ gửi GET.
+// MAIN/NODE only. Renderer never imports this module. Reads and explicit form/create POSTs.
 export type OpConfig = {
   baseUrl: string; apiKey: string;
   fetchImpl?: typeof fetch; timeoutMs?: number; pageSize?: number; maxPages?: number;
 };
-export type OpTimeEntry = { id: number; date: string; hours: number; workPackageId: number | null; projectId: number | null };
+export type OpTimeEntry = { id: number; date: string; hours: number; workPackageId: number | null; projectId: number | null; note?:string; activityId?:number };
 export type TimeEntriesResult = {
   status: 'complete' | 'partial';
   entries: OpTimeEntry[];
@@ -38,12 +38,14 @@ export function createOpClient(config: OpConfig) {
   const maxPages = config.maxPages ?? 100;
   const auth = 'Basic ' + Buffer.from(`apikey:${config.apiKey}`).toString('base64');
 
-  async function getJson(pathAndQuery: string): Promise<Record<string, any>> {
+  async function requestJson(pathAndQuery: string, method: 'GET' | 'POST' = 'GET', body?: unknown): Promise<Record<string, any>> {
+    if (!pathAndQuery.startsWith('/api/v3/') || pathAndQuery.includes('://')) throw new OpError('invalid_config');
     let res: Response;
     try {
       res = await doFetch(origin + pathAndQuery, {
-        method: 'GET', redirect: 'error', signal: AbortSignal.timeout(timeoutMs),
-        headers: { Authorization: auth, Accept: 'application/hal+json' },
+        method, redirect: 'error', signal: AbortSignal.timeout(timeoutMs),
+        headers: { Authorization: auth, Accept: 'application/hal+json', ...(body ? { 'Content-Type':'application/json' } : {}) },
+        ...(body ? { body:JSON.stringify(body) } : {}),
       });
     } catch (e) {
       // Không đính kèm lỗi gốc: có thể chứa chi tiết request.
@@ -62,6 +64,7 @@ export function createOpClient(config: OpConfig) {
     if (!data) throw new OpError('bad_response', { status: res.status });
     return data;
   }
+  const getJson = (path:string) => requestJson(path);
 
   async function getMe(): Promise<{ id: number }> {
     const id = Number((await getJson('/api/v3/users/me')).id);
@@ -96,7 +99,9 @@ export function createOpClient(config: OpConfig) {
           const id = Number(e.id); const date = e.spentOn;
           if (!Number.isInteger(id) || typeof date !== 'string' || !DATE.test(date)) throw new OpError('bad_response');
           pageEntries.push({ id, date, hours: parseIsoDuration(e.hours),
-            workPackageId: idFromHref(obj(links.workPackage)?.href), projectId: idFromHref(obj(links.project)?.href) });
+            workPackageId: idFromHref(obj(links.workPackage)?.href), projectId: idFromHref(obj(links.project)?.href),
+            ...(typeof e.comment?.raw === 'string' ? {note:e.comment.raw} : {}),
+            ...(idFromHref(obj(links.activity)?.href) ? {activityId:idFromHref(obj(links.activity)?.href)!} : {}) });
         }
         // Chỉ ghi nhận trang khi cả trang hợp lệ: trang hỏng không để lại dữ liệu nửa vời.
         for (const e of pageEntries) byId.set(e.id, e);
@@ -112,5 +117,5 @@ export function createOpClient(config: OpConfig) {
     return { status: 'complete', entries: [...byId.values()], excludedForeign, pagesFetched };
   }
 
-  return { getMe, getMyTimeEntries };
+  return { getMe, getMyTimeEntries, requestJson };
 }
