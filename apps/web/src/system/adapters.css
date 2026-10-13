@@ -1,0 +1,14 @@
+/* Disclosed token adapters, not component skins. No button presentation overrides. */
+/* Semantic warning surface for a composed duplicate draft card. */
+html[data-bigin-system] .ds-warning-surface { --surface-secondary: var(--warning-soft); --surface-foreground: var(--warning-soft-foreground); }
+html[data-bigin-system] .ds-elevation-2 { --overlay-shadow: var(--ds-elevation-2); }
+html[data-bigin-system] .ds-elevation-3 { --overlay-shadow: var(--ds-elevation-3); }
+html[data-bigin-system] .ds-striped .table__cell { border-bottom-width: 0; }
+html[data-bigin-system] .ds-striped .table__row:nth-child(even) .table__cell { background-color: var(--ds-table-stripe); }
+html[data-bigin-system] .ds-striped .table__row[data-hovered=true] .table__cell { background-color: var(--ds-selection-hover); }
+/* Animation timing adapter only; geometry/color states remain library-owned. */
+html[data-bigin-system] :where([data-slot="button"],[data-slot="toggle-button"],[data-slot="input"],[data-slot="textarea"],[data-slot="switch-control"],[data-slot="switch-thumb"],[data-slot="checkbox-control"],[data-slot="slider-thumb"]) { transition-duration: var(--ds-motion-control); transition-timing-function: var(--ds-motion-ease); }
+html[data-bigin-system] :where([data-entering=true],[data-exiting=true]) { animation-duration: var(--ds-motion-panel); animation-timing-function: var(--ds-motion-ease); }
+html[data-bigin-system] .ds-elevation-3 { --drawer-enter-duration: var(--ds-motion-panel); --drawer-exit-duration: var(--ds-motion-control); --drawer-enter-ease: var(--ds-motion-ease); --drawer-exit-ease: var(--ds-motion-ease); }
+
+

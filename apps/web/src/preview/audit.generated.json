@@ -1,0 +1,22 @@
+{
+  "scope": "workspace and design preview; shared theme/runtime and application CSS/JSX",
+  "status": "PASS",
+  "buttonSkinSelectors": 0,
+  "rawColors": 0,
+  "customCssFiles": [
+    "preview/layout.css",
+    "system/system.css",
+    "system/adapters.css"
+  ],
+  "selectorCount": 51,
+  "adapters": [
+    "table stripe/hover/border",
+    "overlay elevation",
+    "animation timing",
+    "warning surface semantic variables"
+  ],
+  "composition": [
+    "WorkCalendar: stock ToggleButton/Chip/ProgressBar with disclosed layout-only utilities"
+  ],
+  "errors": []
+}

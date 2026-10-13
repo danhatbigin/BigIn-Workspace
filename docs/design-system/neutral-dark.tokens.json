@@ -1,0 +1,844 @@
+{
+  "schema": "bigin.design-tokens/v1",
+  "status": "draft",
+  "settings": {
+    "preset": "neutral",
+    "mode": "dark",
+    "radius": "rounded",
+    "density": "comfortable",
+    "fontScale": 1,
+    "hue": 0,
+    "chroma": 0,
+    "accentLightness": 0.58,
+    "contrastSafe": true,
+    "reduceMotion": false
+  },
+  "source": {
+    "fileKey": "QKJIPbrT4AyjEwr3fXrNUU",
+    "audited": "2026-10-12",
+    "pages": 31,
+    "nodes": 45033,
+    "componentSets": 98
+  },
+  "tokens": {
+    "color.palette.neutral.canvas": {
+      "type": "color",
+      "value": "oklch(12% 0 0)",
+      "source": "HeroUI Theme Builder reference · 2026-10-12",
+      "description": "Observed neutral reference value."
+    },
+    "color.palette.neutral.body": {
+      "type": "color",
+      "value": "oklch(99.11% 0 0)",
+      "source": "HeroUI Theme Builder reference · 2026-10-12",
+      "description": "Observed neutral reference value."
+    },
+    "color.palette.neutral.surface": {
+      "type": "color",
+      "value": "oklch(21.03% 0 0)",
+      "source": "HeroUI Theme Builder reference · 2026-10-12",
+      "description": "Observed neutral reference value."
+    },
+    "color.palette.neutral.secondary": {
+      "type": "color",
+      "value": "oklch(25.7% 0 0)",
+      "source": "HeroUI Theme Builder reference · 2026-10-12",
+      "description": "Observed neutral reference value."
+    },
+    "color.palette.neutral.tertiary": {
+      "type": "color",
+      "value": "oklch(27.21% 0 0)",
+      "source": "HeroUI Theme Builder reference · 2026-10-12",
+      "description": "Observed neutral reference value."
+    },
+    "color.palette.neutral.default": {
+      "type": "color",
+      "value": "oklch(27.4% 0 0)",
+      "source": "HeroUI Theme Builder reference · 2026-10-12",
+      "description": "Observed neutral reference value."
+    },
+    "color.palette.neutral.muted": {
+      "type": "color",
+      "value": "oklch(70.5% 0 0)",
+      "source": "HeroUI Theme Builder reference · 2026-10-12",
+      "description": "Observed neutral reference value."
+    },
+    "color.palette.neutral.border": {
+      "type": "color",
+      "value": "oklch(28% 0 0)",
+      "source": "HeroUI Theme Builder reference · 2026-10-12",
+      "description": "Observed neutral reference value."
+    },
+    "color.palette.neutral.separator": {
+      "type": "color",
+      "value": "oklch(25% 0 0)",
+      "source": "HeroUI Theme Builder reference · 2026-10-12",
+      "description": "Observed neutral reference value."
+    },
+    "color.palette.neutral.accent": {
+      "type": "color",
+      "value": "oklch(98.48% 0 0)",
+      "source": "HeroUI Theme Builder reference · 2026-10-12",
+      "description": "Observed neutral reference value."
+    },
+    "color.palette.neutral.accentText": {
+      "type": "color",
+      "value": "oklch(15% 0 0)",
+      "source": "HeroUI Theme Builder reference · 2026-10-12",
+      "description": "Observed neutral reference value."
+    },
+    "color.palette.neutral.field": {
+      "type": "color",
+      "value": "oklch(21.03% 0 0)",
+      "source": "HeroUI Theme Builder reference · 2026-10-12",
+      "description": "Observed neutral reference value."
+    },
+    "color.background.canvas": {
+      "type": "color",
+      "value": "oklch(12% 0 0)",
+      "alias": "color.palette.neutral.canvas",
+      "source": "Semantic alias",
+      "description": "I1 main background.",
+      "css": "--background"
+    },
+    "color.text.primary": {
+      "type": "color",
+      "value": "oklch(99.11% 0 0)",
+      "alias": "color.palette.neutral.body",
+      "source": "Semantic alias",
+      "description": "I9 body text.",
+      "css": "--foreground"
+    },
+    "color.surface.container": {
+      "type": "color",
+      "value": "oklch(21.03% 0 0)",
+      "alias": "color.palette.neutral.surface",
+      "source": "Semantic alias",
+      "description": "Container background.",
+      "css": "--surface"
+    },
+    "color.surface.secondary": {
+      "type": "color",
+      "value": "oklch(25.7% 0 0)",
+      "source": "Preview proposal",
+      "description": "Nested surface.",
+      "css": "--surface-secondary"
+    },
+    "color.surface.tertiary": {
+      "type": "color",
+      "value": "oklch(27.21% 0 0)",
+      "source": "Preview proposal",
+      "description": "Higher prominence surface.",
+      "css": "--surface-tertiary"
+    },
+    "color.surface.overlay": {
+      "type": "color",
+      "value": "oklch(21.03% 0 0)",
+      "source": "Preview proposal",
+      "description": "Floating surface; elevation is separate.",
+      "css": "--overlay"
+    },
+    "color.field.background": {
+      "type": "color",
+      "value": "oklch(21.03% 0 0)",
+      "alias": "color.palette.neutral.field",
+      "source": "Semantic alias",
+      "description": "I2 for BDS fields; stock reference field for Neutral.",
+      "css": "--field-background"
+    },
+    "color.field.foreground": {
+      "type": "color",
+      "value": "oklch(99.11% 0 0)",
+      "alias": "color.text.primary",
+      "source": "Semantic alias",
+      "description": "Body text in editable fields.",
+      "css": "--field-foreground"
+    },
+    "color.field.placeholder": {
+      "type": "color",
+      "value": "oklch(70.5% 0 0)",
+      "alias": "color.palette.neutral.muted",
+      "source": "Semantic alias",
+      "description": "Placeholder source value.",
+      "css": "--field-placeholder"
+    },
+    "color.text.muted": {
+      "type": "color",
+      "value": "oklch(70.5% 0 0)",
+      "alias": "color.palette.neutral.muted",
+      "source": "Semantic alias",
+      "description": "Secondary text; evaluate against its actual background.",
+      "css": "--muted"
+    },
+    "color.border.default": {
+      "type": "color",
+      "value": "oklch(28% 0 0)",
+      "alias": "color.palette.neutral.border",
+      "source": "Semantic alias",
+      "description": "I3 default border.",
+      "css": "--border"
+    },
+    "color.border.field": {
+      "type": "color",
+      "value": "oklch(28% 0 0)",
+      "alias": "color.border.default",
+      "source": "Semantic alias",
+      "description": "All field borders follow I3.",
+      "css": "--field-border"
+    },
+    "color.separator.default": {
+      "type": "color",
+      "value": "oklch(25% 0 0)",
+      "source": "Preview proposal",
+      "description": "Separators are not elevation shadows.",
+      "css": "--separator"
+    },
+    "color.selection.hover": {
+      "type": "color",
+      "value": "oklch(27.4% 0 0)",
+      "source": "Preview proposal",
+      "description": "Selection hover semantic role, independent from fields.",
+      "css": "--ds-selection-hover"
+    },
+    "color.table.row.alternate": {
+      "type": "color",
+      "value": "oklch(12% 0 0)",
+      "alias": "color.background.canvas",
+      "source": "Semantic alias",
+      "description": "Owner confirmed table stripe = I1.",
+      "css": "--ds-table-stripe"
+    },
+    "color.action.primary": {
+      "type": "color",
+      "value": "oklch(98.48% 0 0)",
+      "source": "Preview proposal",
+      "description": "Primary action color.",
+      "css": "--accent"
+    },
+    "color.action.primary.foreground": {
+      "type": "color",
+      "value": "oklch(15% 0 0)",
+      "source": "Preview proposal",
+      "description": "Text on primary action.",
+      "css": "--accent-foreground"
+    },
+    "color.action.secondary": {
+      "type": "color",
+      "value": "oklch(27.4% 0 0)",
+      "source": "Preview proposal",
+      "description": "Stock secondary action surface.",
+      "css": "--default"
+    },
+    "color.action.secondary.foreground": {
+      "type": "color",
+      "value": "oklch(99.11% 0 0)",
+      "alias": "color.text.primary",
+      "source": "Semantic alias",
+      "description": "Secondary and ghost text.",
+      "css": "--default-foreground"
+    },
+    "color.action.link": {
+      "type": "color",
+      "value": "oklch(98.48% 0 0)",
+      "source": "Preview proposal",
+      "description": "Link uses accent.",
+      "css": "--link"
+    },
+    "color.selection.active": {
+      "type": "color",
+      "value": "oklch(21.03% 0 0)",
+      "source": "Preview proposal",
+      "description": "Segment/Tabs indicator surface.",
+      "css": "--segment"
+    },
+    "color.status.success.fill": {
+      "type": "color",
+      "value": "#3ee089",
+      "source": "Preview proposal",
+      "description": "Source status fill; never assumed to be readable text.",
+      "css": "--success"
+    },
+    "color.status.success.text-on-fill": {
+      "type": "color",
+      "value": "#0a0a0b",
+      "source": "Preview proposal",
+      "description": "Dark foreground on bright status fill in either mode.",
+      "css": "--success-foreground"
+    },
+    "color.status.success.soft": {
+      "type": "color",
+      "value": "#0b4627",
+      "source": "Preview proposal",
+      "description": "Status surface.",
+      "css": "--success-soft"
+    },
+    "color.status.success.soft-foreground": {
+      "type": "color",
+      "value": "#eefcf4",
+      "source": "Preview proposal",
+      "description": "Separate readable status text.",
+      "css": "--success-soft-foreground"
+    },
+    "color.status.warning.fill": {
+      "type": "color",
+      "value": "#ff871f",
+      "source": "Preview proposal",
+      "description": "Source status fill; never assumed to be readable text.",
+      "css": "--warning"
+    },
+    "color.status.warning.text-on-fill": {
+      "type": "color",
+      "value": "#0a0a0b",
+      "source": "Preview proposal",
+      "description": "Dark foreground on bright status fill in either mode.",
+      "css": "--warning-foreground"
+    },
+    "color.status.warning.soft": {
+      "type": "color",
+      "value": "#522000",
+      "source": "Preview proposal",
+      "description": "Status surface.",
+      "css": "--warning-soft"
+    },
+    "color.status.warning.soft-foreground": {
+      "type": "color",
+      "value": "#fff4eb",
+      "source": "Preview proposal",
+      "description": "Separate readable status text.",
+      "css": "--warning-soft-foreground"
+    },
+    "color.status.danger.fill": {
+      "type": "color",
+      "value": "#ff1f1f",
+      "source": "Preview proposal",
+      "description": "Source status fill; never assumed to be readable text.",
+      "css": "--danger"
+    },
+    "color.status.danger.text-on-fill": {
+      "type": "color",
+      "value": "#0a0a0b",
+      "source": "Preview proposal",
+      "description": "Dark foreground on bright status fill in either mode.",
+      "css": "--danger-foreground"
+    },
+    "color.status.danger.soft": {
+      "type": "color",
+      "value": "#520000",
+      "source": "Preview proposal",
+      "description": "Status surface.",
+      "css": "--danger-soft"
+    },
+    "color.status.danger.soft-foreground": {
+      "type": "color",
+      "value": "#ffebeb",
+      "source": "Preview proposal",
+      "description": "Separate readable status text.",
+      "css": "--danger-soft-foreground"
+    },
+    "color.status.info.soft": {
+      "type": "color",
+      "value": "#002152",
+      "source": "Preview proposal",
+      "description": "Information background.",
+      "css": "--ds-info-soft"
+    },
+    "color.status.info.foreground": {
+      "type": "color",
+      "value": "#ebf3ff",
+      "source": "Preview proposal",
+      "description": "Information foreground.",
+      "css": "--ds-info-text"
+    },
+    "color.chart.series.1": {
+      "type": "color",
+      "value": "#a268ff",
+      "source": "Preview proposal",
+      "description": "Categorical palette, not performance scoring.",
+      "css": "--ds-chart-1"
+    },
+    "color.chart.series.2": {
+      "type": "color",
+      "value": "#ff7777",
+      "source": "Preview proposal",
+      "description": "Categorical palette, not performance scoring.",
+      "css": "--ds-chart-2"
+    },
+    "color.chart.series.3": {
+      "type": "color",
+      "value": "#ffcc68",
+      "source": "Preview proposal",
+      "description": "Categorical palette, not performance scoring.",
+      "css": "--ds-chart-3"
+    },
+    "color.chart.series.4": {
+      "type": "color",
+      "value": "#00c2ee",
+      "source": "Preview proposal",
+      "description": "Categorical palette, not performance scoring.",
+      "css": "--ds-chart-4"
+    },
+    "color.chart.series.5": {
+      "type": "color",
+      "value": "#679bff",
+      "source": "Preview proposal",
+      "description": "Categorical palette, not performance scoring.",
+      "css": "--ds-chart-5"
+    },
+    "color.chart.series.6": {
+      "type": "color",
+      "value": "#00ee98",
+      "source": "Preview proposal",
+      "description": "Categorical palette, not performance scoring.",
+      "css": "--ds-chart-6"
+    },
+    "color.chart.series.7": {
+      "type": "color",
+      "value": "#bac3cf",
+      "source": "Preview proposal",
+      "description": "Categorical palette, not performance scoring.",
+      "css": "--ds-chart-7"
+    },
+    "color.chart.series.8": {
+      "type": "color",
+      "value": "#505d6f",
+      "source": "Preview proposal",
+      "description": "Categorical palette, not performance scoring.",
+      "css": "--ds-chart-8"
+    },
+    "geometry.radius.nested-inner": {
+      "type": "dimension",
+      "value": 12,
+      "source": "BDS Radius/Rounded/Corner M",
+      "description": "Concentric sample inner radius.",
+      "css": "--ds-radius-inner"
+    },
+    "geometry.spacing.nested-inset": {
+      "type": "dimension",
+      "value": 8,
+      "source": "Preview density profile",
+      "description": "Actual uniform inset in the geometry sample.",
+      "css": "--ds-nested-inset"
+    },
+    "geometry.radius.nested-outer": {
+      "type": "dimension",
+      "value": 20,
+      "source": "Derived: inner + inset",
+      "description": "Only for a genuinely concentric nested pair.",
+      "css": "--ds-radius-outer"
+    },
+    "geometry.radius.heroui-base": {
+      "type": "dimension",
+      "value": "0.5rem",
+      "source": "Preview HeroUI adapter",
+      "description": "Stock HeroUI radius scale; not a promise of per-component BDS radius parity.",
+      "css": "--radius"
+    },
+    "geometry.radius.field": {
+      "type": "dimension",
+      "value": "0.75rem",
+      "source": "BDS Radius/Rounded/Corner M",
+      "description": "Independent field radius using public HeroUI variable.",
+      "css": "--field-radius"
+    },
+    "geometry.spacing.unit": {
+      "type": "dimension",
+      "value": "0.25rem",
+      "source": "Preview density profile",
+      "description": "Tailwind/HeroUI shared spacing unit.",
+      "css": "--spacing"
+    },
+    "spacing.scale.2": {
+      "type": "dimension",
+      "value": 2,
+      "source": "BDS observed values · scale proposal",
+      "description": "Spacing scale; not all legacy values are canonical.",
+      "css": "--ds-space-2"
+    },
+    "spacing.scale.4": {
+      "type": "dimension",
+      "value": 4,
+      "source": "BDS observed values · scale proposal",
+      "description": "Spacing scale; not all legacy values are canonical.",
+      "css": "--ds-space-4"
+    },
+    "spacing.scale.8": {
+      "type": "dimension",
+      "value": 8,
+      "source": "BDS observed values · scale proposal",
+      "description": "Spacing scale; not all legacy values are canonical.",
+      "css": "--ds-space-8"
+    },
+    "spacing.scale.12": {
+      "type": "dimension",
+      "value": 12,
+      "source": "BDS observed values · scale proposal",
+      "description": "Spacing scale; not all legacy values are canonical.",
+      "css": "--ds-space-12"
+    },
+    "spacing.scale.16": {
+      "type": "dimension",
+      "value": 16,
+      "source": "BDS observed values · scale proposal",
+      "description": "Spacing scale; not all legacy values are canonical.",
+      "css": "--ds-space-16"
+    },
+    "spacing.scale.24": {
+      "type": "dimension",
+      "value": 24,
+      "source": "BDS observed values · scale proposal",
+      "description": "Spacing scale; not all legacy values are canonical.",
+      "css": "--ds-space-24"
+    },
+    "spacing.scale.32": {
+      "type": "dimension",
+      "value": 32,
+      "source": "BDS observed values · scale proposal",
+      "description": "Spacing scale; not all legacy values are canonical.",
+      "css": "--ds-space-32"
+    },
+    "spacing.scale.48": {
+      "type": "dimension",
+      "value": 48,
+      "source": "BDS observed values · scale proposal",
+      "description": "Spacing scale; not all legacy values are canonical.",
+      "css": "--ds-space-48"
+    },
+    "elevation.level-1": {
+      "type": "shadow",
+      "value": "0 4px 12px rgb(0 0 0 / 0.04)",
+      "source": "BDS effect style Level 1",
+      "description": "Original shadow; dark mode can rely additionally on surface separation.",
+      "css": "--ds-elevation-1"
+    },
+    "elevation.level-2": {
+      "type": "shadow",
+      "value": "1px 4px 16px rgb(0 0 0 / 0.08)",
+      "source": "BDS effect style Level 2",
+      "description": "Original shadow; dark mode can rely additionally on surface separation.",
+      "css": "--ds-elevation-2"
+    },
+    "elevation.level-3": {
+      "type": "shadow",
+      "value": "2px 4px 16px rgb(0 0 0 / 0.12)",
+      "source": "BDS effect style Level 3",
+      "description": "Original shadow; dark mode can rely additionally on surface separation.",
+      "css": "--ds-elevation-3"
+    },
+    "typography.family": {
+      "type": "fontFamily",
+      "value": "Inter, ui-sans-serif, system-ui, sans-serif",
+      "source": "HeroUI reference default; Inter also used in BDS",
+      "description": "Locally bundled default font.",
+      "css": "--font-sans"
+    },
+    "typography.scale": {
+      "type": "number",
+      "value": 1,
+      "source": "Preview adjustable profile",
+      "description": "Root font scale; component hierarchy remains library-owned."
+    },
+    "typography.legacy.title.page": {
+      "type": "dimension",
+      "value": 32,
+      "source": "BDS text style Title/Page",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.title.section": {
+      "type": "dimension",
+      "value": 24,
+      "source": "BDS text style Title/Section",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.title.group": {
+      "type": "dimension",
+      "value": 18,
+      "source": "BDS text style Title/Group",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.subtitle.page": {
+      "type": "dimension",
+      "value": 24,
+      "source": "BDS text style Subtitle/Page",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.subtitle.section": {
+      "type": "dimension",
+      "value": 18,
+      "source": "BDS text style Subtitle/Section",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.subtitle.group": {
+      "type": "dimension",
+      "value": 14,
+      "source": "BDS text style Subtitle/Group",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.subtitle.body": {
+      "type": "dimension",
+      "value": 12,
+      "source": "BDS text style Subtitle/Body",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.button.large": {
+      "type": "dimension",
+      "value": 20,
+      "source": "BDS text style Button/Large",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.button.medium": {
+      "type": "dimension",
+      "value": 16,
+      "source": "BDS text style Button/Medium",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.button.small": {
+      "type": "dimension",
+      "value": 12,
+      "source": "BDS text style Button/Small",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.button.xsmall": {
+      "type": "dimension",
+      "value": 10,
+      "source": "BDS text style Button/XSmall",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.body.paragraph": {
+      "type": "dimension",
+      "value": 16,
+      "source": "BDS text style Body/Paragraph",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.body.tag": {
+      "type": "dimension",
+      "value": 14,
+      "source": "BDS text style Body/Tag",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.body.display.label": {
+      "type": "dimension",
+      "value": 12,
+      "source": "BDS text style Body/Display/Label",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.body.display.default": {
+      "type": "dimension",
+      "value": 16,
+      "source": "BDS text style Body/Display/Default",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.body.display.accent": {
+      "type": "dimension",
+      "value": 16,
+      "source": "BDS text style Body/Display/Accent",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.body.selection.default": {
+      "type": "dimension",
+      "value": 14,
+      "source": "BDS text style Body/Selection/Default",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.body.selection.hover": {
+      "type": "dimension",
+      "value": 14,
+      "source": "BDS text style Body/Selection/Hover",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.body.selection.selected": {
+      "type": "dimension",
+      "value": 14,
+      "source": "BDS text style Body/Selection/Selected",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.navigation.nav item": {
+      "type": "dimension",
+      "value": 14,
+      "source": "BDS text style Navigation/Nav item",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.system responding.validation": {
+      "type": "dimension",
+      "value": 12,
+      "source": "BDS text style System responding/Validation",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.system responding.tooltip": {
+      "type": "dimension",
+      "value": 14,
+      "source": "BDS text style System responding/Tooltip",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.system responding.summary mesage": {
+      "type": "dimension",
+      "value": 14,
+      "source": "BDS text style System responding/Summary mesage",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.system responding.status": {
+      "type": "dimension",
+      "value": 14,
+      "source": "BDS text style System responding/Status",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.date picker.today": {
+      "type": "dimension",
+      "value": 12,
+      "source": "BDS text style Date picker/Today",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.date picker.date.selected": {
+      "type": "dimension",
+      "value": 12,
+      "source": "BDS text style Date picker/Date/Selected",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.date picker.date.default": {
+      "type": "dimension",
+      "value": 12,
+      "source": "BDS text style Date picker/Date/Default",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.date picker.weekdays": {
+      "type": "dimension",
+      "value": 10,
+      "source": "BDS text style Date picker/Weekdays",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.navigation.tab item": {
+      "type": "dimension",
+      "value": 14,
+      "source": "BDS text style Navigation/Tab item",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.navigation.breadcrumb item": {
+      "type": "dimension",
+      "value": 10,
+      "source": "BDS text style Navigation/Breadcrumb item",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.title.extra.xtra light": {
+      "type": "dimension",
+      "value": 48,
+      "source": "BDS text style Title/Extra/Xtra light",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.title.extra.semibold": {
+      "type": "dimension",
+      "value": 48,
+      "source": "BDS text style Title/Extra/Semibold",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.data table.heading": {
+      "type": "dimension",
+      "value": 16,
+      "source": "BDS text style Data table/Heading",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.data table.value": {
+      "type": "dimension",
+      "value": 16,
+      "source": "BDS text style Data table/Value",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.data table.substitution": {
+      "type": "dimension",
+      "value": 12,
+      "source": "BDS text style Data table/Substitution",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.body.input.static.label": {
+      "type": "dimension",
+      "value": 12,
+      "source": "BDS text style Body/Input/Static/Label",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.body.input.static.value": {
+      "type": "dimension",
+      "value": 16,
+      "source": "BDS text style Body/Input/Static/Value",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.body.input.static.substitution": {
+      "type": "dimension",
+      "value": 16,
+      "source": "BDS text style Body/Input/Static/Substitution",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.body.input.facial.label": {
+      "type": "dimension",
+      "value": 14,
+      "source": "BDS text style Body/Input/Facial/Label",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.body.input.facial.value": {
+      "type": "dimension",
+      "value": 16,
+      "source": "BDS text style Body/Input/Facial/Value",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.body.input.facial.accent": {
+      "type": "dimension",
+      "value": 16,
+      "source": "BDS text style Body/Input/Facial/Accent",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.body.input.floating.value": {
+      "type": "dimension",
+      "value": 16,
+      "source": "BDS text style Body/Input/Floating/Value",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.body.input.floating.substitution": {
+      "type": "dimension",
+      "value": 14,
+      "source": "BDS text style Body/Input/Floating/Substitution",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.body.input.floating.label.default": {
+      "type": "dimension",
+      "value": 16,
+      "source": "BDS text style Body/Input/Floating/Label/Default",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.body.input.floating.label.accent": {
+      "type": "dimension",
+      "value": 12,
+      "source": "BDS text style Body/Input/Floating/Label/Accent",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "typography.legacy.body.input.search.value": {
+      "type": "dimension",
+      "value": 12,
+      "source": "BDS text style Body/Input/Search/Value",
+      "description": "Legacy reference, not automatically applied to HeroUI components."
+    },
+    "layer.tooltip.native": {
+      "type": "number",
+      "value": 100000,
+      "source": "Observed React Aria overlay manager",
+      "description": "Library-owned tooltip stacking; reference only, no CSS override."
+    },
+    "motion.controls": {
+      "type": "duration",
+      "value": "120ms",
+      "source": "Existing motion registry fast token",
+      "description": "Control transition timing.",
+      "css": "--ds-motion-control"
+    },
+    "motion.panel": {
+      "type": "duration",
+      "value": "260ms",
+      "source": "Existing motion registry panel token",
+      "description": "Panel timing where an adapter controls timing.",
+      "css": "--ds-motion-panel"
+    },
+    "motion.ease-out": {
+      "type": "cubicBezier",
+      "value": "cubic-bezier(0, 0, 0.2, 1)",
+      "source": "Existing motion registry easeOut token",
+      "description": "Motion easing.",
+      "css": "--ds-motion-ease"
+    }
+  }
+}

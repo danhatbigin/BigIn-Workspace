@@ -1,48 +1,36 @@
-import { useRef, useState } from 'react';
-import { AnimatePresence } from 'motion/react';
-import * as m from 'motion/react-m';
-import { ArrowLeft, Copy, TriangleAlert, X } from 'lucide-react';
-import { duplicateEntries, hasSameTask, validHours, type DuplicateRow, type Entry, type Task } from '../../../packages/domain/time';
-import { transitionFor } from '../../../packages/ui/src/motion/motion.config';
-import { Dialog } from './Dialog';
-import { hours, longDate } from './format';
 
-export function DuplicateDialog({ source, task, dates, draftHours, entries, reduced, onBack, onCancel, onSave }: {
-  source: Entry; task: Task; dates: string[]; draftHours: Record<string, string>; entries: Entry[]; reduced: boolean;
-  onBack: (rows: DuplicateRow[]) => void; onCancel: () => void; onSave: (entries: Entry[]) => boolean;
+import { Alert, Button, Card, Form, Input, Label, Modal, TextField } from '@heroui/react';
+import { useRef, useState } from 'react';
+import { ArrowLeft, Copy, X } from 'lucide-react';
+import { duplicateEntries, hasSameTask, validHours, type DuplicateRow, type Entry, type Task } from '../../../packages/domain/time';
+import { hours, longDate } from './format';
+import type { BatchSaveResult } from '../../../packages/op/bridge';
+
+export function DuplicateDialog({ source, task, dates, draftHours, entries, liveMode, onBack, onCancel, onComplete, onSave }: {
+  source: Entry; task: Task; dates: string[]; draftHours: Record<string,string>; entries: Entry[];
+  liveMode?:boolean; onComplete?:()=>void; onBack: (rows: DuplicateRow[]) => void; onCancel: () => void; onSave: (entries: Entry[]) => boolean | Promise<boolean|BatchSaveResult>;
 }) {
-  const [rows, setRows] = useState<DuplicateRow[]>(dates.map(date => ({ date, hours: draftHours[date] ?? '' })));
+  const [rows, setRows] = useState<DuplicateRow[]>(dates.map(date => ({ date,hours:draftHours[date] ?? '' })));
   const [error, setError] = useState(''); const submitting = useRef(false); const backRef = useRef<HTMLButtonElement>(null);
-  function remove(date: string, index: number) {
-    setRows(current => current.filter(row => row.date !== date));
-    const next = rows[index + 1] ?? rows[index - 1];
-    if (next) document.getElementById(`duplicate-${next.date}`)?.focus(); else backRef.current?.focus();
-  }
-  function submit(event: React.FormEvent) {
+  const [pending,setPending]=useState(false); const [uncertain,setUncertain]=useState<string[]>([]);
+  const ids=useRef(new Map(dates.map(date=>[date,crypto.randomUUID()])));
+  function remove(date: string, index: number) { setRows(current => current.filter(row => row.date !== date)); const next = rows[index + 1] ?? rows[index - 1]; if (next) document.getElementById(`duplicate-${next.date}`)?.focus(); else backRef.current?.focus(); }
+  async function submit(event: React.FormEvent) {
     event.preventDefault(); if (submitting.current) return;
     if (!rows.length || rows.some(row => !validHours(row.hours))) { setError('Enter valid hours for all remaining days.'); return; }
-    submitting.current = true;
-    try { if (!onSave(duplicateEntries(source, rows, () => crypto.randomUUID()))) setError('Couldn’t save. The hours you entered are kept.'); }
-    finally { submitting.current = false; }
+    const retry=rows.filter(row=>!uncertain.includes(row.date)); if(!retry.length)return;
+    submitting.current = true; setPending(true);setError('');
+    try { const batch=duplicateEntries(source,retry,()=>crypto.randomUUID()).map(entry=>({...entry,id:ids.current.get(entry.date)!})); const result=await onSave(batch);
+      if(result===false)setError('Couldn’t save. The hours you entered are kept.');
+      else if(typeof result==='object') {const savedDates=result.outcomes.filter(outcome=>outcome.status==='saved').map(outcome=>outcome.date);const remaining=rows.filter(row=>!savedDates.includes(row.date));setRows(remaining);const unresolved=[...new Set([...uncertain,...result.outcomes.filter(outcome=>outcome.status==='uncertain').map(outcome=>outcome.date)])];setUncertain(unresolved);setError([unresolved.length ? 'Remaining days have an unknown save result. Check OpenProject before continuing.' : '',...result.outcomes.filter(outcome=>outcome.status!=='saved').map(outcome=>`${outcome.date}: ${outcome.message}`)].filter(Boolean).join(' '));if(!remaining.length)onComplete?.();}
+    } catch {setError('Could not complete the save. Check OpenProject before trying again.');if(liveMode)setUncertain(retry.map(row=>row.date));}
+    finally { submitting.current = false;setPending(false); }
   }
-  return <Dialog titleId="duplicate-title" className="duplicate-shell" onCancel={() => onBack(rows)}>
-    <m.section initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={transitionFor('duplicate.hoursEnter', reduced)}>
-      <header className="dialog-header"><div><p className="eyebrow">DUPLICATE · STEP 2/2</p><h2 id="duplicate-title">One day, one stretch of time.</h2><p className="muted">Look back and enter the actual hours for each day.</p></div><button className="icon-button" aria-label="Back to date selection" onClick={() => onBack(rows)}><X size={20} /></button></header>
-      <div className="source-summary"><Copy size={19} /><div><small>{task.project} · {task.id}</small><strong>{task.title}</strong></div></div>
-      <form onSubmit={submit}>
-        <div className="duplicate-rows"><AnimatePresence initial={false}>
-          {rows.map((row, index) => {
-            const duplicate = hasSameTask(entries, source.taskId, row.date);
-            return <m.div key={row.date} layout={reduced ? false : 'position'} initial={false} exit={{ opacity: 0 }} transition={transitionFor('duplicate.rowRemove', reduced)} className={`duplicate-row ${duplicate ? 'has-warning' : ''}`} data-testid={`duplicate-row-${row.date}`}>
-              <div className="duplicate-row-main"><label htmlFor={`duplicate-${row.date}`}>{longDate(row.date)}</label><div className="compact-hours"><input id={`duplicate-${row.date}`} aria-label={`Hours ${row.date}`} autoFocus={index === 0} type="number" inputMode="decimal" min="0.01" max="24" step="any" required placeholder="Enter hours" value={row.hours} onChange={e => setRows(current => current.map(r => r.date === row.date ? { ...r, hours: e.target.value } : r))} /><span>hours</span></div><button type="button" className="icon-button" aria-label={`Remove ${row.date}`} onClick={() => remove(row.date, index)}><X size={17} /></button></div>
-              {duplicate && <p className="duplicate-warning"><TriangleAlert size={15} /> This day already has a log for this task. Duplicate will add another entry.</p>}
-            </m.div>;
-          })}
-        </AnimatePresence>{!rows.length && <div className="empty">No dates yet. Go back to choose dates to duplicate.</div>}</div>
-        {error && <p className="error-message" role="alert">{error}</p>}
-        <div className="duplicate-total"><span>{rows.length} days selected</span><strong>{hours(rows.reduce((sum, row) => sum + (validHours(row.hours) ? Number(row.hours) : 0), 0))} hours will be added</strong></div>
-        <footer className="dialog-footer"><button ref={backRef} type="button" className="text-button" onClick={() => onBack(rows)}><ArrowLeft size={16} /> Choose dates again</button><div className="button-row"><button type="button" className="secondary" onClick={onCancel}>Cancel</button><button type="submit" className="primary" disabled={!rows.length}><Copy size={16} /> Duplicate {rows.length ? `(${rows.length})` : ''}</button></div></footer>
-      </form>
-    </m.section>
-  </Dialog>;
+  return <Modal isOpen onOpenChange={open => { if (!open && !pending) onBack(rows); }}><Modal.Backdrop><Modal.Container size="lg"><Modal.Dialog className="ds-elevation-3">
+    <Modal.Header><div className="flex items-start justify-between gap-3"><div><Modal.Heading>One day, one stretch of time.</Modal.Heading><p className="mt-2 text-sm text-muted">Look back and enter the actual hours for each day.</p></div><Button isIconOnly variant="ghost" aria-label="Back to date selection" isDisabled={pending} onPress={() => onBack(rows)}><X /></Button></div></Modal.Header>
+    <Modal.Body><div className="flex flex-col gap-5"><Card variant="secondary"><Card.Header><Card.Description>{task.project} · {task.id}</Card.Description><Card.Title>{task.title}</Card.Title></Card.Header></Card>
+      <Form id="duplicate-form" className="flex flex-col gap-4" onSubmit={submit}>{rows.map((row,index) => { const duplicate = hasSameTask(entries,source.taskId,row.date); return <Card key={row.date} variant="secondary" className={duplicate ? 'ds-warning-surface' : undefined} data-warning={duplicate} data-testid={`duplicate-row-${row.date}`}><Card.Content><div className="flex items-end gap-3"><TextField isRequired isDisabled={pending || uncertain.includes(row.date)} aria-label={`Hours ${row.date}`} className="min-w-0 flex-1"><Label>{longDate(row.date)}</Label><Input id={`duplicate-${row.date}`} aria-label={`Hours ${row.date}`} autoFocus={index === 0} type="number" inputMode="decimal" min="0.01" max="24" step="any" required placeholder="Enter hours" value={row.hours} onChange={e => setRows(current => current.map(r => r.date === row.date ? { ...r,hours:e.target.value } : r))} /></TextField><Button type="button" isIconOnly variant="ghost" aria-label={`Remove ${row.date}`} isDisabled={pending} onPress={() => remove(row.date,index)}><X /></Button></div>{duplicate && <div className="mt-3"><Alert status="warning"><Alert.Indicator /><Alert.Content><Alert.Title>This day already has a log for this task.</Alert.Title><Alert.Description>Duplicate will add another entry.</Alert.Description></Alert.Content></Alert></div>}</Card.Content></Card>; })}
+        {!rows.length && <p className="text-sm text-muted">No dates yet. Go back to choose dates to duplicate.</p>}{error && <Alert status="danger" role="alert"><Alert.Content><Alert.Title>{error}</Alert.Title></Alert.Content></Alert>}<p className="text-sm text-muted">{rows.length} days selected · {hours(rows.reduce((sum,row) => sum + (validHours(row.hours) ? Number(row.hours) : 0),0))} hours will be added</p>
+      </Form></div></Modal.Body><Modal.Footer><div className="flex w-full flex-wrap justify-between gap-3"><Button ref={backRef} isDisabled={pending} type="button" variant="ghost" onPress={() => onBack(rows)}><ArrowLeft /> Choose dates again</Button><div className="flex gap-2"><Button type="button" variant="secondary" isDisabled={pending} onPress={onCancel}>Cancel</Button><Button form="duplicate-form" type="submit" isPending={pending} isDisabled={!rows.some(row=>!uncertain.includes(row.date))}><Copy /> Duplicate {rows.length ? `(${rows.length})` : ''}</Button></div></div></Modal.Footer>
+  </Modal.Dialog></Modal.Container></Modal.Backdrop></Modal>;
 }

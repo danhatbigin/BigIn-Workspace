@@ -1,5 +1,5 @@
-export type Task = { id: string; project: string; title: string; status: 'In progress' | 'Done' | 'To do' };
-export type Entry = { id: string; taskId: string; date: string; hours: number; note: string };
+export type Task = { id: string; project: string; title: string; status: 'In progress' | 'Done' | 'To do'; projectId?: number; opStatus?: string; canLog?: boolean };
+export type Entry = { id: string; taskId: string; date: string; hours: number; note: string; activityId?:number };
 export type Snapshot = { version: 1; tasks: Task[]; entries: Entry[] };
 export type DuplicateRow = { date: string; hours: string };
 

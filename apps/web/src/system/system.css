@@ -1,0 +1,7 @@
+@import "tailwindcss";
+@import "@heroui/styles";
+@import "@fontsource-variable/inter";
+@import "./adapters.css";
+
+html[data-bigin-system] { font-size: var(--ds-font-size); background: var(--background); color: var(--foreground); }
+html[data-bigin-system] body { margin: 0; font-family: var(--font-sans); }
