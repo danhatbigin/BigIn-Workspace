@@ -1,5 +1,12 @@
 # Checkpoint hiện tại
 
+> Checkpoint mới nhất luôn ở đầu file; các mục bên dưới là lịch sử, không theo thứ tự thời gian chặt chẽ.
+
+## Checkpoint mới nhất — Claude, 2026-10-13, HARDEN-001
+
+[HARDEN-001](tasks/HARDEN-001.md) Verified local, chờ owner UAT. Code đã commit trên branch wip/win-pilot-0.2.1 (chưa push, origin/main không tồn tại), tag v0.2.2. Journal: guard theo task + ngày, thêm nút "I checked OpenProject — allow retry" (IPC op:resolve). Release 0.2.2: asar + fuses, smoke-hooks tách khỏi bản release; smoke dùng build riêng (npm run build:windows:smoke). Version lấy từ package.json. CI workflow đã viết, chưa chạy. op-write-test.mjs chuyển sang .local/ (gitignored). Evidence: check 56/56, e2e 17/17, test:desktop PASS (dev + smoke exe), build:windows PASS. Cần owner: retest OP thật, signing cert, chốt DEC-003, remote GitHub, tài khoản quyền thấp. 0.2.1 giữ chờ retest; 0.2.0 ở release/_superseded.
+
+
 ## Checkpoint mới nhất — WIN-LIVE-002, 2026-10-12
 
 Owner báo Add/Duplicate lỗi `OpenProject needs valid fields: user.` [WIN-LIVE-002](tasks/WIN-LIVE-002.md) sửa adapter own-user: bỏ user tường minh mặc định, chỉ thêm nếu form requires + writable; guard form/response đúng actor. Mock cũ bỏ sót readonly/default user đã sửa. Check 56/56 PASS; desktop EXE 0.2.1 regression với mock readonly cover cả Add/Duplicate. Artifact release/BigIn-Workspace-0.2.1-win-x64.zip, đóng 0.2.0 trước khi mở mới; token/app identity giữ nguyên. Live instance vẫn chờ owner retest, không agent ghi OP hoặc lấy token. Validation detail mới được redact/gắn vào error UI cho triage. MASTER 0.15 không đổi business policy; package/handoff trong packet. Các checkpoint dưới là lịch sử.
