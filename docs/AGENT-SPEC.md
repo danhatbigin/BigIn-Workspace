@@ -1,6 +1,6 @@
 # Agent specification — quy trình đề xuất
 
-Revision: 0.9 | Source: MASTER.md revision 0.9 | Trạng thái: implementation nền tảng/local prototype
+Revision: 0.15 | Source: MASTER.md revision 0.15 | Trạng thái: implementation nền tảng/local prototype
 
 Owner đã cho khởi động dự án. Task BOOT-001 triển khai local prototype dựa trên rules đủ rõ; không tự phê duyệt policies còn Open hoặc truy cập dữ liệu OP thật.
 
@@ -36,7 +36,7 @@ Mỗi thay đổi cần bảng truy vết: requirement → implementation → te
 
 ## 4. Các ranh giới hiện tại
 
-- Motion theo [MOTION-SPEC.md](MOTION-SPEC.md): registry tập trung và Reduce Motion đã được owner chốt; engine Motion + CSS/thông số vẫn Proposed. Khi build dùng một config tokens/presets/usages, docs sinh/đối chiếu từ config; không hardcode duration/easing tại feature. Một element/property chỉ một engine owner. Reduce Motion áp cả CSS/HeroUI/chart, không chỉ MotionConfig. Layout feature cần bundle phù hợp. Không tự xem registry proposal là code đã triển khai.
+- Motion theo [MOTION-SPEC.md](MOTION-SPEC.md): registry tập trung và Reduce Motion đã được owner chốt; DS-002 dùng stock HeroUI CSS với timing chung; engine Motion đã gỡ, thông số vẫn cần UAT. Khi build dùng một config tokens/presets/usages, docs sinh/đối chiếu từ config; không hardcode duration/easing tại feature. Một element/property chỉ một engine owner. Reduce Motion áp chung cho CSS/HeroUI và chart tương lai. Layout feature cần bundle phù hợp. Không tự xem registry proposal là code đã triển khai.
 
 - React/Electron đã được owner xác nhận; không tự đổi stack.
 - BFF chưa được xác nhận; owner đang yêu cầu tư vấn tối ưu hạ tầng, không coi “web không server” là quyết định kiến trúc bất biến. Tham chiếu master mục 11.
@@ -64,3 +64,21 @@ Khi rules được duyệt, thêm kiểm chứng biên đúng 8/12/16 và trên 
 Acceptance LT-03 có thể chuẩn bị: một entry nguồn, N ngày đích và N ô giờ; một ô trống chặn toàn bộ submit trước ghi và giữ input; giờ ngày đích đúng theo từng ô; source không đổi; partial success chỉ retry phần chưa được xác nhận sau đối soát. Notification cần case tuần giao tháng/tuần chưa kết thúc theo policy được duyệt. Recognition cần đối chiếu dữ liệu thật, không lặp reward khi refresh và không bị trạng thái thiếu giờ che mất; chỉ triển khai khi đề xuất liên quan được duyệt.
 
 Acceptance 0.5: 6/10/8/8/8 giờ vẫn thiếu 2 giờ một ngày dù tổng 40; noti LT-04-R01 không bị triệt tiêu bởi tổng đó. Duplicate ban đầu không prefill; Remove dòng trống loại validation/payload của dòng đó, giữ input dòng khác và không gọi DELETE; không submit khi không còn đích. Chọn lại ngày đã remove bắt đầu trống theo chi tiết UX đề xuất. Các case local đã có evidence BOOT-001; noti và lịch nghỉ chưa implement.
+
+## UI implementation guidance
+
+Đọc UI-GUIDANCE.md và component docs v3 trước khi sửa HeroUI; không dùng v2 APIs. HeroUI Free đang được dùng thực tế trong UI-001. UI English; calendar nghiệp vụ compose ToggleButton/Chip/ProgressBar, overlays dùng HeroUI Drawer/Modal. Motion config phải cover HeroUI controls và app panels, docs generated phải khớp. Không tự cài global skill/MCP hoặc ghi đè entrypoint từ generator docs.
+
+## Token theme DS-001
+
+Preview entry riêng /design-system; không import WorkspaceEntry/styles/polish CSS từ preview. Token model và source ở packages/design-tokens/src; docs/design-system artifacts sinh bằng tokens:docs, audit bằng tokens:audit. Không thêm Button className/style/render presentation override để né token bridge; CSS adapters properties có allowlist và phải disclosed. Sau sửa token/config chạy tokens:docs; sau sửa preview CSS chạy tokens:audit; check xác minh artifacts không stale. DS-002 đã migrate workspace, xóa legacy CSS và native Dialog. Cả hai route dùng system/useSystemTheme.ts và system/system.css; settings thay đổi đồng bộ qua storage event. Settings local key bigin-design-preview-v1 riêng dữ liệu workspace.
+
+DS-002 policy: chỉ dùng semantic tokens + stock public variants. Custom components phải compose HeroUI/system components; không tạo stylesheet skin riêng, không hardcode palette utilities, màu, radius hoặc Button className/style/render. Layout utilities được phép; root calendar ToggleButton có allowlist layout trong audit. Adapter mới phải có role/provenance, được ghi trong system/adapters.css và audit allowlist, không dùng selector override để che thiếu token. Static audit là guard có giới hạn; đọc diff + visual/behavior evidence vẫn bắt buộc. Không sửa node_modules.
+
+## Windows live pilot 0.15
+
+Owner cho phép app đọc/ghi log thật khi owner bấm Save. App first-run nhập token; không xin token qua chat hoặc tự tìm key để ghi production. Runtime OP chỉ trong main, renderer chỉ import type bridge. Credentials encrypted trong userData; clipboard/log/test/artifacts không chứa token. Main validates senderFrame + app URL, API validates payload/permission/form. Không expose generic IPC/fetch/filesystem/decrypt interfaces.
+
+Tách boolean local save khỏi asynchronous BatchSaveResult; nhận từng saved/failed/uncertain. Không đóng duplicate khi retry known failures còn unknown rows. Journal persist trước POST; unknown/sending sau restart chặn cùng fingerprint. Không xóa journal/catch error rồi retry. Recovery UI chưa có trong pilot; chỉ đối soát production bằng sự ủy quyền cụ thể. Mock tests có localhost endpoint/profile riêng, không chứng minh live contract instance. Prod origin cố định op.bigin.vn; test override chỉ localhost 127.0.0.1 với flag smoke.
+
+build:windows tạo portable release; allowlist packaged files (web build, desktop code/runtime), không include workspace/.env/userData/test scripts. test:desktop dùng mocked local server và fresh encrypted profile; BIGIN_PACKAGED_EXE cho smoke chính binary. Cập nhật docs/checkpoint khi đổi contract. Web vẫn demo; không làm live Save thành local fallback. WP create/status và notifications còn task riêng.

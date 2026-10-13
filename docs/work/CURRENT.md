@@ -1,5 +1,25 @@
 # Checkpoint hiện tại
 
+## Checkpoint mới nhất — WIN-LIVE-002, 2026-10-12
+
+Owner báo Add/Duplicate lỗi `OpenProject needs valid fields: user.` [WIN-LIVE-002](tasks/WIN-LIVE-002.md) sửa adapter own-user: bỏ user tường minh mặc định, chỉ thêm nếu form requires + writable; guard form/response đúng actor. Mock cũ bỏ sót readonly/default user đã sửa. Check 56/56 PASS; desktop EXE 0.2.1 regression với mock readonly cover cả Add/Duplicate. Artifact release/BigIn-Workspace-0.2.1-win-x64.zip, đóng 0.2.0 trước khi mở mới; token/app identity giữ nguyên. Live instance vẫn chờ owner retest, không agent ghi OP hoặc lấy token. Validation detail mới được redact/gắn vào error UI cho triage. MASTER 0.15 không đổi business policy; package/handoff trong packet. Các checkpoint dưới là lịch sử.
+
+## Checkpoint mới nhất — Codex, 2026-10-12, WIN-LIVE-001
+
+Owner yêu cầu build Windows first-run API token và xác nhận đọc + ghi log time thật. [WIN-LIVE-001](tasks/WIN-LIVE-001.md) Verified artifact/mock contract, chờ owner live UAT. MASTER/AGENT-SPEC 0.15. Main/preload + DPAPI token store, DesktopEntry onboarding, user-scoped reads/range/WP search, Add/Duplicate async real POST, per-entry outcomes/journal. Không trộn demo, không auto-retry unknown hoặc đóng modal sớm khi còn unknown rows. Live WP create/status/notifications chưa enabled; Web vẫn demo.
+
+Artifact release/BigIn-Workspace-0.2.0-win-x64.zip (~152 MiB), self-contained portable unsigned; giải nén toàn bộ/mở BigIn Workspace.exe, nhập token trong app. [Hướng dẫn](../WINDOWS-PILOT.md). 53 tests/check PASS, 17 Chromium PASS, Windows build PASS, mock integration trên chính EXE PASS. Latest artifact hash trong packet. First-run ảnh docs/design-system/windows-first-run.png. Không test write trên OP production; owner nhập token/UAT mới xác minh instance.
+
+Next: owner UAT; ghi error/status và kiểm tra OP trước retry unknown. Không tự chạy op-write-test.mjs hoặc thu token qua chat. Recovery journal UI chưa có, activity picker/HR calendar/installer/signing/macOS/performance là scope riêng. Branch main HEAD b207845, changes chưa commit/push, gồm DS và WIN-LIVE files; preserve existing work. Các checkpoints dưới là lịch sử.
+
+## Checkpoint mới nhất — Codex, 2026-10-12, DS-002
+
+Owner đã review Lab và ra lệnh áp system vào workspace, clean legacy custom; thực hiện [DS-002](tasks/DS-002.md) Verified local, chờ owner UAT. MASTER/AGENT-SPEC 0.14. Hai routes cùng resolver/runtime/settings/styles; stock HeroUI overlays/controls, calendar compose ToggleButton/Chip/ProgressBar; native Dialog và legacy styles/polish/tokens CSS xóa, Motion package cũ gỡ. Policy mới: compose-only, semantic tokens/public variants; adapters disclosed/audited, không skin riêng.
+
+Evidence: check 47/47; full Chromium 17/17; build; Electron Windows smoke PASS. Sau layout self-start cuối, hai test visual/sync PASS và warning snapshot đã chờ đủ backdrop/container animation. Ảnh xem/copy tại docs/design-system/workspace-*.png. Stock exit có thể bị cắt bởi feature unmount; không claim layout animation Remove hoặc performance budget đã đạt. Chưa kiểm chứng macOS/full a11y/RAM.
+
+Next: owner UAT hoặc feature được chỉ định. Không tự quay lại polish.css hoặc tiếp tục DS-001 waiting approval. OP UI/notifications vẫn task riêng. Repo main HEAD b207845, changes uncommitted; giữ scripts/op-write-test.mjs untracked và packages/op, không ghi OP. Chạy lại token docs/audit khi thay hệ thống, đọc UI-GUIDANCE hiện tại. Các checkpoints dưới là lịch sử, đã bị mục này thay thế khi mâu thuẫn.
+
 2026-10-12 Asia/Saigon | Codex | Phase: local prototype đã triển khai, chờ owner UAT
 
 ## Task vừa hoàn tất
@@ -73,3 +93,25 @@ Yêu cầu mới của owner: toàn bộ UI bằng tiếng Anh (MASTER 0.11). Ch
 
 ## Cập nhật 13:05 (Claude) — UI/application toàn bộ English
 Theo yêu cầu owner: đã chuyển mọi chuỗi hiển thị sang English (App, Drawer, DuplicateDialog, useWorkspace, demo data, lỗi packages/op, lỗi domain, locale en-US, html lang=en) và cập nhật e2e/smoke. Docs nội bộ giữ tiếng Việt. Kiểm tra 13:03: check 41/41, build, e2e 8/8, desktop PASS. Ngoài chuỗi chữ không đổi hành vi. Chưa có nhãn 8/12/16.
+
+## Checkpoint mới nhất — Codex, 2026-10-12, UI-001
+
+Task hiện tại [UI-001](tasks/UI-001.md) Verified local UI, chờ owner UAT. Owner yêu cầu polish trước khi tiếp tục tính năng. MASTER 0.12, AGENT-SPEC 0.12; UI-GUIDANCE chứa HeroUI v3 agent docs/patterns đã đọc. HeroUI Free/Tailwind đã cài và dùng thực tế; calendar custom, native dialog, Motion config giữ một nguồn.
+
+Evidence mới: check 41/41, build, Chromium E2E 9/9, Electron Windows smoke PASS. Đã xem screenshots dashboard/drawer/duplicate/mobile. Chưa có macOS/performance budget/official accessibility audit. Preview 5173 được dùng lại từ server đang chạy; open_in_codex trả queued.
+
+Repo hiện main HEAD b207845; UI/docs/dependencies/test changes đang uncommitted. Giữ nguyên untracked scripts/op-write-test.mjs của công việc trước, không chạy file đó trong UI-001. Không sửa packages/op hoặc ghi OP trong lượt. Nếu tiếp quản, đối soát git status trước sửa. Bước tiếp: owner xem UI polish, phản hồi visual; OP wiring vẫn ở task riêng.
+
+## Checkpoint mới nhất — Codex, 2026-10-12, DS-001
+
+Task [DS-001](tasks/DS-001.md) Verified local preview, chờ owner review. MASTER/AGENT-SPEC 0.13. User cho biên soạn token spec và tạo preview như HeroUI themes; không dùng lại approach polish.css nhiều component overrides.
+
+Preview http://127.0.0.1:5173/design-system đã hiển thị trong in-app tab 4, markDeliverable. Native HeroUI component gallery + Dashboard + Foundations + Tokens, adjustable presets/profiles và export. CSS route isolated; audits và generated artifacts dưới docs/design-system. Root / vẫn workspace UI-001; chưa migrate.
+
+Evidence: check 47/47 + artifact sync PASS, 15/15 Chromium E2E PASS, production build PASS, Electron Windows existing-workspace smoke PASS. Preview-only Electron smoke/macOS/full accessibility/performance budget NOT RUN. Stable screenshot tooltip in modal đã xem bổ sung; ảnh overview tại docs/design-system.
+
+Files: packages/design-tokens/src/theme.ts/bds-source.json/component-inventory.json; apps/web/src/preview; WorkspaceEntry + main route; scripts/token-audit.ts/token-docs.ts. Commands tokens:audit, tokens:docs, tokens:check. Không duy trì bảng token thủ công thứ hai.
+
+Git main HEAD b207845; UI-001/DS-001 docs/code/lockfile còn uncommitted. Preserve scripts/op-write-test.mjs untracked của công việc trước; không chạy nó hoặc sửa packages/op ở lượt này. Preview server 5173 dùng lại, không mở server trùng cổng.
+
+Next: owner review preset/shape/spacing/color, rồi task migrate workspace. Defaults draft không tự xem là owner Accepted. JSON schema riêng bigin.design-tokens/v1, không giả vờ DTCG validated hoặc universal drop-in.

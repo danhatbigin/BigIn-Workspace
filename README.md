@@ -1,6 +1,6 @@
 # BigIn Employee Workspace
 
-Local preview đầu tiên: React + TypeScript + Vite + Motion, cùng Electron shell.
+Local preview đầu tiên: React + TypeScript + Vite + HeroUI, cùng Electron shell.
 
 ## Chạy
 
@@ -30,7 +30,7 @@ npm run test:desktop
 - Calendar tuần/tháng, tổng giờ và thiếu từng ngày, không bù giờ.
 - Drawer tìm/chọn/tạo task và log giờ local.
 - Duplicate từ entry, chọn ngày, ô giờ trống, Remove và warning cam không chặn.
-- Motion registry dùng chung và Reduce Motion theo OS hoặc tùy chọn trong phiên.
+- HeroUI CSS timing registry dùng chung và Reduce Motion theo OS hoặc tùy chọn được lưu.
 - Dữ liệu mẫu lưu localStorage, key `bigin-demo-v1`, riêng từng origin/profile. Không lưu credential.
 
 Chưa có OpenProject auth/API, nhắc 17:00 chạy nền, installer ký số, macOS QA, lịch phép/lễ hoặc nhãn khen thưởng. Đóng cửa sổ desktop hiện thoát app. Không phải production release. Mọi task tạo trong app đều là local sample.
@@ -38,3 +38,9 @@ Chưa có OpenProject auth/API, nhắc 17:00 chạy nền, installer ký số, m
 ## Tiếp quản
 
 Đọc [START-HERE.md](START-HERE.md), [CURRENT](docs/work/CURRENT.md), rồi task packet được chỉ định. Không đọc toàn chat để đoán trạng thái.
+
+UI polish: HeroUI Free v3 + Tailwind v4 đã tích hợp. Hướng dẫn cho agent ở docs/UI-GUIDANCE.md; theme ở packages/design-tokens/src/theme.ts, runtime/styles dùng chung ở apps/web/src/system. Legacy polish.css/tokens.css đã xóa; custom components phải compose từ system. Các data rules/local preview limitations ở trên vẫn áp dụng.
+
+Design token preview: http://127.0.0.1:5173/design-system (Electron: #design-system). Source model ở packages/design-tokens/src; spec/export artifacts ở docs/design-system. Workspace và preview dùng cùng token resolver/settings, không còn legacy skin. Có Light/Dark, preset Neutral/BDS, profile controls, component/dashboard composition và JSON/CSS export. Run npm run tokens:docs và npm run tokens:audit sau sửa; npm run check kiểm tra artifact consistency.
+
+Windows live pilot: xem docs/WINDOWS-PILOT.md. Build Windows x64 portable bằng npm.cmd run build:windows. First-run nhập API token để đọc và ghi log time thật lên op.bigin.vn; token được mã hóa trong desktop main. Web vẫn demo. Release chưa ký; WP creation/status và reminders chưa bật. test:desktop dùng server mô phỏng, không ghi production.

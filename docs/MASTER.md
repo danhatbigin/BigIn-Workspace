@@ -1,6 +1,6 @@
 # Product master
 
-Revision: 0.11 | 2026-10-12 | Implementation nền tảng/local prototype; PRD chi tiết tiếp tục discovery
+Revision: 0.15 | 2026-10-12 | Implementation nền tảng/local prototype; PRD chi tiết tiếp tục discovery
 
 ## 1. Vấn đề và kết quả mong muốn
 
@@ -123,7 +123,7 @@ Yêu cầu đã được nói rõ vẫn có thể chưa đủ chi tiết để b
 
 ## 8. Visual, motion và hiệu năng
 
-**Confirmed:** Có file khai báo tập trung animation/preset/easing/duration/vị trí sử dụng để dễ điều chỉnh; hỗ trợ Reduce Motion. [Motion spec](MOTION-SPEC.md) và [registry sinh tự động](MOTION-REGISTRY.generated.md) mô tả Motion + CSS đã dùng trong prototype BOOT-001. Runtime config là nguồn chung cho Motion/CSS; chart engine chưa có. Preset/duration vẫn cần UAT và chưa benchmark theo budget. Không hardcode rải rác hoặc duy trì bản số liệu tài liệu thứ hai bằng tay.
+**Confirmed:** Có file khai báo tập trung animation/preset/easing/duration/vị trí sử dụng để dễ điều chỉnh; hỗ trợ Reduce Motion. [Motion spec](MOTION-SPEC.md) và [registry sinh tự động](MOTION-REGISTRY.generated.md) ghi timing dùng chung. DS-002 dùng animation CSS của HeroUI và bỏ Motion runtime của prototype cũ; chart engine chưa có. Preset/duration vẫn cần UAT và chưa benchmark theo budget. Không hardcode rải rác hoặc duy trì bản số liệu tài liệu thứ hai bằng tay.
 
 **Confirmed:** Owner coi motion/chart/animation là một phần chất lượng trải nghiệm; lo giật, lag và RAM cao khiến app bị bỏ dùng.
 
@@ -177,3 +177,41 @@ Web vẫn cần nơi phân phối file frontend (static hosting hoặc hạ tầ
 **Proposed operational details:** Cập nhật checkpoint trước/sau nhóm sửa có ý nghĩa và sau kiểm tra, không chờ hết context; đối soát Git diff khi tiếp quản; không coi Implemented là Verified hoặc Accepted. Khung file đã tạo, chưa có tự động enforce hoặc app implementation.
 - 0.10 (2026-10-12): Owner chốt P-01 phương án A: ngày phải log là T2–T6, bỏ qua ngày tương lai; phép/lễ nhập tay trong app ở bản pilot cho đến khi có nguồn từ OP/HR. Owner giao agent đề xuất tên nhãn cho P-03 (chỉ copy hiển thị); biên 12/16 chưa chốt. Task tiếp theo chờ owner polish UI/UX.
 - 0.11 (2026-10-12): Owner yêu cầu toàn bộ UI/application hiển thị bằng tiếng Anh; tài liệu nội bộ vẫn tiếng Việt. Đã chuyển chuỗi UI, tên cửa sổ, locale (en-US), lang="en", dữ liệu mẫu, thông báo lỗi của packages/op và test sang English.
+
+## 14. UI polish — 2026-10-12
+
+Owner yêu cầu polish giao diện trước khi tiếp tục tính năng và tham khảo UI for Agents của HeroUI. UI-001 đã dùng HeroUI Free v3 cho controls/cards/inputs, Tailwind v4, theme neutral/blue và typography rõ hơn. UI English được giữ. Visual vẫn chờ owner UAT; chưa phải thiết kế final. [UI guidance](UI-GUIDANCE.md) ghi tài liệu agent đã đọc và pattern cần tiếp tục. Không thay rules log time/duplicate hoặc code OP trong lượt này.
+
+Change 0.12: ghi yêu cầu polish và implementation UI-001; OP integration/notifications tiếp tục theo tasks riêng.
+
+## 15. Design token preview — DS-001
+
+Owner yêu cầu biên soạn token specification và tạo preview như HeroUI Theme Builder, phản đối việc dùng CSS custom/override làm giả theme. DS-001 triển khai route /design-system riêng, component HeroUI native, semantic token model, Neutral reference/BDS và profile adjustable. User chốt table stripe I1 và tooltip Level 3 trong discovery trước đó.
+
+Source of truth: packages/design-tokens/src/theme.ts + bds-source.json; spec và generated artifacts tại docs/design-system. Preview không import polish.css; có CSS audit và disclosed adapters. Runtime presets hiện là draft để review, không tự trở thành theme workspace chính thức. Icon Lucide hiện có, Inter local theo reference/default, typography scale adjustable. Màu source BDS giữ nguyên; placeholder safe alias là đề xuất có thể tắt. JSON dùng schema riêng bigin.design-tokens/v1, không tự nhận DTCG-compliant.
+
+Change 0.13: cho thực thi DS-001; trước khi migrate workspace, owner review preview/config. No OP write trong lượt này.
+
+## 16. Áp system vào workspace — DS-002
+
+**Confirmed:** Owner review preview rồi yêu cầu áp vào workspace, clean custom cũ. Từ nay chỉ dùng system; custom component compose từ components sẵn có. Không thay business rules hoặc nối OP trong migration UI này.
+
+Workspace và Lab dùng cùng token resolver, runtime/styles và saved settings; chỉnh Lab sync qua tab workspace. HeroUI Drawer/Modal/Dropdown/Select/Form thay controls/overlays tự dựng. Calendar nghiệp vụ compose stock ToggleButton/Chip/ProgressBar; custom chỉ layout, không skin trạng thái. Legacy polish.css/tokens.css/styles.css/Dialog đã xóa. Shared adapters disclosed, audit phạm vi cả app.
+
+Animation trong scope này dùng CSS của HeroUI với timing chung từ motion registry, không bọc engine khác lên transform/opacity stock. Motion package cũ đã gỡ. Các alert/mode changes và Remove hiện phản hồi trực tiếp, không còn animation layout tự dựng; focus và draft rules giữ nguyên. Dismiss feature overlay hiện unmount trực tiếp sau yêu cầu đóng/save; không cam kết stock exit animation chạy hết khi unmount. Reduce Motion chung theo OS + saved preference, không trì hoãn thao tác.
+
+Change 0.14: DS-002 system migration và policy compose-only; evidence và giới hạn tại work/tasks/DS-002.md.
+
+## 17. Windows live pilot — WIN-LIVE-001
+
+**Confirmed:** Owner yêu cầu Windows app lần đầu nhập API token, rồi xác nhận đọc và ghi log time thật. Server BigIn là https://op.bigin.vn. Token nhập trong app; không yêu cầu gửi qua chat/repo. Test này là pilot để owner UAT, không tự đánh dấu accepted.
+
+Desktop main gọi API Basic apikey, xác thực /users/me trước khi lưu token bằng Electron safeStorage/Windows DPAPI. Preload chỉ expose methods đã định nghĩa; renderer nhận token tạm thời từ input rồi xóa khi connect thành công, không có API đọc token. Token không lưu browser storage hoặc đi kèm build. Forget token xóa saved credential. Main chặn renderer lạ/child frames và redirects; kiểm soát certificate/browser security giữ nguyên.
+
+Live data không trộn sample/local entries; đọc user=me và đối soát user ID từng entry. Lịch tuần/tháng truy vấn range tương ứng; partial data không chứng minh đủ/thiếu giờ. Quy tắc Mon–Fri hiện là estimate vì chưa tích hợp HR calendar. Work package metadata có thể unavailable; project-only logs vẫn tính giờ nhưng không giả là task có thể duplicate. Search theo title/ID và project scope, tối đa 100 matches/lần.
+
+Add time/Duplicate tạo time entries thật sau thao tác Save của owner, dùng form/default activity/permission của project, gửi hours ISO và user hiện tại. Không mutate entry nguồn. Save đang chạy chặn double submit/dismiss. Batch tuần tự, không giả atomic; ngày đã confirmed được loại khỏi retry. Unknown response sau create được ghi journal, không tự retry equivalent intent kể cả restart. Pilot chưa có UI đối soát/xóa uncertainty journal; nếu xảy ra cần kiểm tra OP và hỗ trợ recovery riêng, không tự xóa journal để retry mù.
+
+Live pilot chưa tạo work package/đổi status hoặc notifications; UI nói rõ và không lưu giả vào local. Web vẫn demo, browser auth/CORS chưa được kiểm chứng. Build Windows x64 portable ZIP, cần extract toàn bộ và chạy EXE, không cần Node/npm. Unsigned internal build; chưa installer/signing/macOS build. Evidence mock contract khác production verification; owner nhập token và UAT trên instance để xác minh thực tế.
+
+Change 0.15: WIN-LIVE-001, owner authorization read/write + Windows build. Không tự chạy write trên OP production trong development verification.
